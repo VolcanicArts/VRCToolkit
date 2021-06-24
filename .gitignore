@@ -7,5 +7,13 @@
 /Temp
 *.csproj
 *.sln
+*.asset
+*.unitypackage
+/Assets/Gizmos
 /Assets/Plugins
+/Assets/Udon
+/Assets/SerializedUdonPrograms
+/Assets/UdonSharp
+/Assets/VRChat Examples
+/Assets/VRCSDK
 *.meta
