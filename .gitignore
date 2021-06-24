@@ -1,0 +1,11 @@
+/.idea
+/Library
+/Logs
+/obj
+/Packages
+/ProjectSettings
+/Temp
+*.csproj
+*.sln
+/Assets/Plugins
+*.meta
