@@ -3,12 +3,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRC.SDKBase;
 
-namespace VRCToolkit
+namespace VRCToolkit.UdonBehaviours.Controllers
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
-    public class RadialUIButtonController : UdonSharpBehaviour
+    public class RadialButtonController : UdonSharpBehaviour
     {
-
         [Header("Network")]
         [Tooltip(
             "If true, this script will sync the object states from the owner of the script receiving events. If false, each event will run locally")]
@@ -30,7 +29,7 @@ namespace VRCToolkit
 
         public void Start()
         {
-            if (!Networking.IsOwner(Networking.LocalPlayer, gameObject)) return;
+            if (syncOverNetwork && !Networking.IsOwner(Networking.LocalPlayer, gameObject)) return;
             _selectedButton = initialButton;
             UpdateButtons();
         }
@@ -50,33 +49,32 @@ namespace VRCToolkit
 
         public override void OnDeserialization()
         {
-            if (!Networking.IsOwner(Networking.LocalPlayer, gameObject)) UpdateButtons();
+            UpdateButtons();
         }
 
         public void Mode0()
         {
-            _selectedButton = 0;
-            UpdateOwner();
-            UpdateButtons();
+            SetSelectedButton(0);
         }
 
         public void Mode1()
         {
-            _selectedButton = 1;
-            UpdateOwner();
-            UpdateButtons();
+            SetSelectedButton(1);
         }
 
         public void Mode2()
         {
-            _selectedButton = 2;
-            UpdateOwner();
-            UpdateButtons();
+            SetSelectedButton(2);
         }
 
         public void Mode3()
         {
-            _selectedButton = 3;
+            SetSelectedButton(3);
+        }
+
+        private void SetSelectedButton(int value)
+        {
+            _selectedButton = value;
             UpdateOwner();
             UpdateButtons();
         }
@@ -90,6 +88,5 @@ namespace VRCToolkit
 
             if (syncOverNetwork && Networking.IsOwner(Networking.LocalPlayer, gameObject)) RequestSerialization();
         }
-
     }
 }

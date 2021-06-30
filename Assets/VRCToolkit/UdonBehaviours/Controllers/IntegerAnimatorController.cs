@@ -2,11 +2,14 @@
 using UnityEngine;
 using VRC.SDKBase;
 
-namespace VRCToolkit
+namespace VRCToolkit.UdonBehaviours.Controllers
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
-    public class BooleanAnimatorController : UdonSharpBehaviour
+    public class IntegerAnimatorController : UdonSharpBehaviour
     {
+        private const int minMode = 0;
+        private const int maxMode = 3;
+
         [Header("Network")]
         [Tooltip(
             "If true, this script will sync the object states from the owner of the script receiving events. If false, each event will run locally")]
@@ -15,18 +18,18 @@ namespace VRCToolkit
         [Header("Attributes")] [Tooltip("The animator this script is controlling")]
         public Animator animator;
 
-        [Tooltip("The boolean this script is updating")]
-        public string booleanName;
+        [Tooltip("The integer animator parameter this script is updating")]
+        public string integerName;
 
         [Tooltip(
-            "The initial value of the boolean. This overrides the value in the animator parameter window on Start")]
-        public bool initialValue;
+            "The initial value of the integer. This overrides the value in the animator parameter window on Start")]
+        public int initialValue;
 
-        [UdonSynced] private bool _mode;
+        [UdonSynced] private int _mode;
 
         public void Start()
         {
-            if (!Networking.IsOwner(Networking.LocalPlayer, gameObject)) return;
+            if (syncOverNetwork && !Networking.IsOwner(Networking.LocalPlayer, gameObject)) return;
             _mode = initialValue;
             UpdateAnimator();
         }
@@ -46,33 +49,49 @@ namespace VRCToolkit
 
         public override void OnDeserialization()
         {
-            if (!Networking.IsOwner(Networking.LocalPlayer, gameObject)) UpdateAnimator();
-        }
-
-        public void False()
-        {
-            _mode = false;
-            UpdateOwner();
             UpdateAnimator();
         }
 
-        public void True()
+        public void Value0()
         {
-            _mode = true;
-            UpdateOwner();
-            UpdateAnimator();
+            SetValue(0);
         }
 
-        public void Toggle()
+        public void Value1()
         {
-            _mode = !_mode;
+            SetValue(1);
+        }
+
+        public void Value2()
+        {
+            SetValue(2);
+        }
+
+        public void Value3()
+        {
+            SetValue(3);
+        }
+
+        public void Increase()
+        {
+            SetValue(_mode + 1);
+        }
+
+        public void Decrease()
+        {
+            SetValue(_mode - 1);
+        }
+
+        private void SetValue(int value)
+        {
+            _mode = _mode = Mathf.Clamp(value, minMode, maxMode);
             UpdateOwner();
             UpdateAnimator();
         }
 
         private void UpdateAnimator()
         {
-            animator.SetBool(booleanName, _mode);
+            animator.SetInteger(integerName, _mode);
             if (syncOverNetwork && Networking.IsOwner(Networking.LocalPlayer, gameObject)) RequestSerialization();
         }
     }

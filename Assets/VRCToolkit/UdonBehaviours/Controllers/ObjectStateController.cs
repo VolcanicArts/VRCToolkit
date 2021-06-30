@@ -1,14 +1,11 @@
-﻿
-using UdonSharp;
+﻿using UdonSharp;
 using UnityEngine;
-
 using VRC.SDKBase;
 
-
-namespace VRCToolkit
+namespace VRCToolkit.UdonBehaviours.Controllers
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
-    public class GenericObjectToggle : UdonSharpBehaviour
+    public class ObjectStateController : UdonSharpBehaviour
     {
         [Header("Network")]
         [Tooltip(
@@ -22,6 +19,7 @@ namespace VRCToolkit
 
         private void Start()
         {
+            if (syncOverNetwork && !Networking.IsOwner(Networking.LocalPlayer, gameObject)) return;
             _objectStates = new bool[objects.Length];
             RetrieveObjectStates();
         }
@@ -41,7 +39,7 @@ namespace VRCToolkit
 
         public override void OnDeserialization()
         {
-            if (!Networking.IsOwner(Networking.LocalPlayer, gameObject)) UpdateObjectStates();
+            UpdateObjectStates();
         }
 
         public void False()

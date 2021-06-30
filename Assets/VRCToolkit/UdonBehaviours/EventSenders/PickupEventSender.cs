@@ -1,14 +1,14 @@
 ﻿using JetBrains.Annotations;
-using UdonSharp;
 using UnityEngine;
 using VRC.Udon;
+using UdonSharp;
 
-namespace VRCToolkit
+namespace VRCToolkit.UdonBehaviours.EventSenders
 {
     [UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
-    public class GenericEventSenderPickup : UdonSharpBehaviour
+    public class PickupEventSender : UdonSharpBehaviour
     {
-        [Header("Receiver")] [Tooltip("The receiver of the events")]
+        [Header("Receiver")] [Tooltip("The receiver of the events")] [CanBeNull]
         public UdonBehaviour eventReceiver;
 
         [Header("Available events")] [Tooltip("The event you want to send to the eventReceiver on pickup")] [CanBeNull]
@@ -19,6 +19,9 @@ namespace VRCToolkit
 
         [Tooltip("The event you want to send to the eventReceiver on pickup use up")] [CanBeNull]
         public string onPickupUseUpEventName;
+
+        [Tooltip("The event you want to send to the eventReceiver on drop")] [CanBeNull]
+        public string onDropEventName;
 
         public override void OnPickup()
         {
@@ -35,9 +38,15 @@ namespace VRCToolkit
             HandleSendingEvent(onPickupUseUpEventName);
         }
 
+        public override void OnDrop()
+        {
+            HandleSendingEvent(onDropEventName);
+        }
+
         private void HandleSendingEvent(string eventName)
         {
             if (string.IsNullOrEmpty(eventName)) return;
+            if (eventReceiver == null) return;
             eventReceiver.SendCustomEvent(eventName);
         }
     }
