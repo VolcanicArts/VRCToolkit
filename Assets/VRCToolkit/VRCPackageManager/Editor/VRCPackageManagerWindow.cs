@@ -113,7 +113,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private static void AddVRCPackage(VRCPackage package)
         {
             GUILayout.Label(package.FormattedName, EditorStyles.boldLabel);
-            GUILayout.Label(package.Description);
+            GUILayout.Label(package.Description, EditorStyles.wordWrappedLabel);
             EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.Requirements}"));
             if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
             var latestReleaseFileName = GetLatestReleaseFileName(package.RepoName, package.FormattedName, package.FileNameFormat);
