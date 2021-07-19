@@ -62,7 +62,7 @@ namespace VRCToolkit.UdonBehaviours.Controllers
 
         private void RetrieveObjectStates()
         {
-            for (int i = 0; i < _objectStates.Length; i++)
+            for (var i = 0; i < _objectStates.Length; i++)
             {
                 _objectStates[i] = objects[i].activeSelf;
             }
@@ -70,7 +70,7 @@ namespace VRCToolkit.UdonBehaviours.Controllers
 
         private void SetObjectStates(bool state)
         {
-            for (int i = 0; i < _objectStates.Length; i++)
+            for (var i = 0; i < _objectStates.Length; i++)
             {
                 _objectStates[i] = state;
             }
@@ -80,7 +80,7 @@ namespace VRCToolkit.UdonBehaviours.Controllers
 
         private void ToggleObjectStates()
         {
-            for (int i = 0; i < _objectStates.Length; i++)
+            for (var i = 0; i < _objectStates.Length; i++)
             {
                 _objectStates[i] = !_objectStates[i];
             }
@@ -90,7 +90,7 @@ namespace VRCToolkit.UdonBehaviours.Controllers
 
         private void UpdateObjectStates()
         {
-            for (int i = 0; i < _objectStates.Length; i++)
+            for (var i = 0; i < _objectStates.Length; i++)
             {
                 objects[i].SetActive(_objectStates[i]);
             }

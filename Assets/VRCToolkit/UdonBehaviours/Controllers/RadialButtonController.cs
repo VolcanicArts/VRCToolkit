@@ -81,7 +81,7 @@ namespace VRCToolkit.UdonBehaviours.Controllers
 
         private void UpdateButtons()
         {
-            for (int i = 0; i < buttons.Length; i++)
+            for (var i = 0; i < buttons.Length; i++)
             {
                 buttons[i].color = (i == _selectedButton) ? selected : deselected;
             }
