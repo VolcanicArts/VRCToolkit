@@ -78,15 +78,18 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             GUILayout.Label("UdonSharp", EditorStyles.boldLabel);
             GUILayout.Label("UdonSharp is a compiler that compiles C# to Udon assembly");
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {nameof(SDK3World)}"));
             AddInstallButton(nameof(UdonSharp), UdonSharp, UdonSharpNameFormat);
 
             GUILayout.Label("CyanEmu", EditorStyles.boldLabel);
             GUILayout.Label("A VRChat client emulator in Unity for SDK2 and SDK3");
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {nameof(SDK2)}/{nameof(SDK3World)}"));
             AddInstallButton(nameof(CyanEmu), CyanEmu, CyanEmuNameFormat);
 
             GUILayout.Label("VRWorld Toolkit", EditorStyles.boldLabel);
             GUILayout.Label("VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more" +
                             "\naccessible and lower the entry-level to make a good performing world");
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {nameof(SDK3World)}"));
             AddInstallButton(nameof(VRWorldToolkit), VRWorldToolkit, VRWorldToolkitNameFormat);
 
             GUILayout.Space(40);
@@ -102,17 +105,20 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.Label("VRCPlayersOnlyMirror SDK2", EditorStyles.boldLabel);
             GUILayout.Label("VRCPlayersOnlyMirror is a simple mirror prefab that shows players" +
                             "\nonly without any background");
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {nameof(SDK2)}"));
             AddInstallButton(nameof(VrcPlayersOnlyMirrorSDK2), VrcPlayersOnlyMirrorSDK2,
                 VrcPlayersOnlyMirrorSDK2NameFormat);
 
             GUILayout.Label("VRCPlayersOnlyMirror SDK3", EditorStyles.boldLabel);
             GUILayout.Label("VRCPlayersOnlyMirror is a simple mirror prefab that shows players" +
                             "\nonly without any background");
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {nameof(SDK3World)}"));
             AddInstallButton(nameof(VrcPlayersOnlyMirrorSDK3), VrcPlayersOnlyMirrorSDK3,
                 VrcPlayersOnlyMirrorSDK3NameFormat);
 
             GUILayout.Label("USharpVideo", EditorStyles.boldLabel);
             GUILayout.Label("A basic video player made for VRChat using Udon and UdonSharp");
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {nameof(UdonSharp)}"));
             AddInstallButton(nameof(USharpVideo), USharpVideo, USharpVideoNameFormat);
         }
 
