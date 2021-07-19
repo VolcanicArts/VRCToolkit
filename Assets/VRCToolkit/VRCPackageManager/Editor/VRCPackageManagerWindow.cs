@@ -20,25 +20,49 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private const string GitHubRepoBase = "https://github.com/";
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
 
-        private const string UdonSharp = "MerlinVR/UdonSharp";
-        private const string UdonSharpNameFormat = "{0}_{1}.unitypackage";
-        private const string UdonSharpDescription = "UdonSharp is a compiler that compiles C# to Udon assembly";
-        private const string CyanEmu = "CyanLaser/CyanEmu";
-        private const string CyanEmuNameFormat = "{0}.{1}.unitypackage";
-        private const string CyanEmuDescription = "A VRChat client emulator in Unity for SDK2 and SDK3";
-        private const string VRWorldToolkit = "oneVR/VRWorldToolkit";
-        private const string VRWorldToolkitNameFormat = "{0}{1}.unitypackage";
-        private const string VRWorldToolkitDescription =
-            "VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more accessible and lower the entry-level to make a good performing world";
-        private const string VrcPlayersOnlyMirrorSDK2 = "acertainbluecat/VRCPlayersOnlyMirror";
-        private const string VrcPlayersOnlyMirrorSDK2NameFormat = "{0}_{1}.unitypackage";
-        private const string VrcPlayersOnlyMirrorSDK3 = "acertainbluecat/VRCPlayersOnlyMirror";
-        private const string VrcPlayersOnlyMirrorSDK3NameFormat = "{0}_{1}.unitypackage";
-        private const string VrcPlayersOnlyMirrorDescription =
-            "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background";
-        private const string USharpVideo = "MerlinVR/USharpVideo";
-        private const string USharpVideoNameFormat = "{0}_{1}.unitypackage";
-        private const string USharpVideoDescription = "A basic video player made for VRChat using Udon and UdonSharp";
+        private static readonly VRCPackage UdonSharp = new VRCPackage(
+            nameof(UdonSharp),
+            "MerlinVR/UdonSharp",
+            "{0}_{1}.unitypackage",
+            "UdonSharp is a compiler that compiles C# to Udon assembly",
+            nameof(SDK3World));
+        
+        private static readonly VRCPackage CyanEmu = new VRCPackage(
+            nameof(CyanEmu),
+            "CyanLaser/CyanEmu",
+            "{0}.{1}.unitypackage",
+            "A VRChat client emulator in Unity for SDK2 and SDK3",
+            $"{nameof(SDK2)}/{nameof(SDK3World)}");
+        
+        private static readonly VRCPackage VRWorldToolkit = new VRCPackage(
+            nameof(VRWorldToolkit),
+            "oneVR/VRWorldToolkit",
+            "{0}{1}.unitypackage",
+            "VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more accessible and lower the entry-level to make a good performing world",
+            nameof(SDK3World));
+
+        private const string VRCPlayersOnlyMirrorDescription = "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background";
+        
+        private static readonly VRCPackage VRCPlayersOnlyMirrorSDK2 = new VRCPackage(
+            nameof(VRCPlayersOnlyMirrorSDK2),
+            "acertainbluecat/VRCPlayersOnlyMirror",
+            "{0}_{1}.unitypackage",
+            VRCPlayersOnlyMirrorDescription,
+            nameof(SDK2));
+        
+        private static readonly VRCPackage VRCPlayersOnlyMirrorSDK3 = new VRCPackage(
+            nameof(VRCPlayersOnlyMirrorSDK3),
+            "acertainbluecat/VRCPlayersOnlyMirror",
+            "{0}_{1}.unitypackage",
+            VRCPlayersOnlyMirrorDescription,
+            nameof(SDK3World));
+        
+        private static readonly VRCPackage USharpVideo = new VRCPackage(
+            "USharpVideo",
+            "MerlinVR/USharpVideo",
+            "{0}_{1}.unitypackage",
+            "A basic video player made for VRChat using Udon and UdonSharp",
+            UdonSharp.FormattedName);
 
         private void OnGUI()
         {
@@ -50,16 +74,16 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.Space(40);
             
             AddSectionTitle("Tools");
-            AddGitHubInstallButton(nameof(UdonSharp), UdonSharp, UdonSharpNameFormat, UdonSharpDescription, nameof(SDK3World));
-            AddGitHubInstallButton(nameof(CyanEmu), CyanEmu, CyanEmuNameFormat, CyanEmuDescription, $"{nameof(SDK2)}/{nameof(SDK3World)}");
-            AddGitHubInstallButton(nameof(VRWorldToolkit), VRWorldToolkit, VRWorldToolkitNameFormat, VRWorldToolkitDescription, nameof(SDK3World));
+            AddVRCPackage(UdonSharp);
+            AddVRCPackage(CyanEmu);
+            AddVRCPackage(VRWorldToolkit);
 
             GUILayout.Space(40);
             
             AddSectionTitle("Prefabs");
-            AddGitHubInstallButton(nameof(VrcPlayersOnlyMirrorSDK2), VrcPlayersOnlyMirrorSDK2, VrcPlayersOnlyMirrorSDK2NameFormat, VrcPlayersOnlyMirrorDescription, nameof(SDK2));
-            AddGitHubInstallButton(nameof(VrcPlayersOnlyMirrorSDK3), VrcPlayersOnlyMirrorSDK3, VrcPlayersOnlyMirrorSDK3NameFormat, VrcPlayersOnlyMirrorDescription, nameof(SDK3World));
-            AddGitHubInstallButton(nameof(USharpVideo), USharpVideo, USharpVideoNameFormat, USharpVideoDescription, nameof(UdonSharp));
+            AddVRCPackage(VRCPlayersOnlyMirrorSDK2);
+            AddVRCPackage(VRCPlayersOnlyMirrorSDK3);
+            AddVRCPackage(USharpVideo);
         }
 
         [MenuItem("VRCToolkit/VRCPackageManager")]
@@ -86,15 +110,15 @@ namespace VRCToolkit.VRCPackageManager.Editor
             HandleDownload(name, latestReleaseURL, $"{name}.unitypackage");
         }
 
-        private static void AddGitHubInstallButton(string packageName, string repoName, string format, string description, string requirements)
+        private static void AddVRCPackage(VRCPackage package)
         {
-            GUILayout.Label(packageName, EditorStyles.boldLabel);
-            GUILayout.Label(description);
-            EditorGUILayout.HelpBox(new GUIContent($"This package requires {requirements}"));
+            GUILayout.Label(package.FormattedName, EditorStyles.boldLabel);
+            GUILayout.Label(package.Description);
+            EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.Requirements}"));
             if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
-            var latestReleaseFileName = GetLatestReleaseFileName(repoName, packageName, format);
-            var latestReleaseURL = GitHubRepoBase + repoName + GitHubRepoLatestDownload + latestReleaseFileName;
-            HandleDownload(packageName, latestReleaseURL, latestReleaseFileName);
+            var latestReleaseFileName = GetLatestReleaseFileName(package.RepoName, package.FormattedName, package.FileNameFormat);
+            var latestReleaseURL = GitHubRepoBase + package.RepoName + GitHubRepoLatestDownload + latestReleaseFileName;
+            HandleDownload(package.FormattedName, latestReleaseURL, latestReleaseFileName);
         }
 
         private static string GetLatestReleaseFileName(string repo, string repoName, string nameFormat)
