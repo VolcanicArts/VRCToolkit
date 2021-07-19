@@ -12,11 +12,11 @@ public class VRCPackageManagerWindow : EditorWindow
 
     private const string VrcBase = "https://vrchat.com/download/";
     private const string SDK2 = "sdk2";
-    private const string SDK3Avatar = "sdk3-avatar";
+    private const string SDK3Avatar = "sdk3-avatars";
     private const string SDK3World = "sdk3-worlds";
 
     private const string UdonSharp =
-        "https://github.com/MerlinVR/UdonSharp/releases/latest/download/UdonSharp_v0.19.12.unitypackage";
+        "https://github.com/MerlinVR/UdonSharp/releases/latest/download/UdonSharp_v0.20.0.unitypackage";
 
     private const string CyanEmu =
         "https://github.com/CyanLaser/CyanEmu/releases/latest/download/CyanEmu.v0.3.8.unitypackage";

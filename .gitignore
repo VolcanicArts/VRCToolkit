@@ -12,6 +12,8 @@
 /Assets/Gizmos
 /Assets/Plugins
 /Assets/Udon
+/Assets/Scenes
+/Assets/TextMesh*Pro
 /Assets/SerializedUdonPrograms
 /Assets/UdonSharp
 /Assets/VRChat Examples
