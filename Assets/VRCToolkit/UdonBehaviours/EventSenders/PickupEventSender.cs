@@ -5,7 +5,7 @@ using UdonSharp;
 
 namespace VRCToolkit.UdonBehaviours.EventSenders
 {
-    [UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
+    [UdonBehaviourSyncMode(BehaviourSyncMode.NoVariableSync)]
     public class PickupEventSender : UdonSharpBehaviour
     {
         [Header("Receiver")] [Tooltip("The receiver of the events")] [CanBeNull]

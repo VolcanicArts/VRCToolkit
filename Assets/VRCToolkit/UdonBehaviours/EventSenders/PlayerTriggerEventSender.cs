@@ -6,7 +6,7 @@ using UdonSharp;
 
 namespace VRCToolkit.UdonBehaviours.EventSenders
 {
-    [UdonBehaviourSyncMode(BehaviourSyncMode.Continuous)]
+    [UdonBehaviourSyncMode(BehaviourSyncMode.NoVariableSync)]
     public class PlayerTriggerEventSender : UdonSharpBehaviour
     {
         [Header("Receiver")] [Tooltip("The receiver of the events")] [CanBeNull]
