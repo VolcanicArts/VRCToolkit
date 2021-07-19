@@ -48,7 +48,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             if (GUILayout.Button("Install", EditorStyles.miniButtonMid))
             {
                 var latestReleaseURL = $"{VrcBase}{SDK2}";
-                HandleDownload(nameof(SDK2), latestReleaseURL, "unitypackage");
+                HandleDownload(nameof(SDK2), latestReleaseURL, $"{nameof(SDK2)}.unitypackage");
             }
 
             // SDK3
@@ -56,14 +56,14 @@ namespace VRCToolkit.VRCPackageManager.Editor
             if (GUILayout.Button("Install", EditorStyles.miniButtonMid))
             {
                 var latestReleaseURL = $"{VrcBase}{SDK3Avatar}";
-                HandleDownload(nameof(SDK3Avatar), latestReleaseURL, "unitypackage");
+                HandleDownload(nameof(SDK3Avatar), latestReleaseURL, $"{nameof(SDK3Avatar)}.unitypackage");
             }
 
             GUILayout.Label("SDK3 World", EditorStyles.boldLabel);
             if (GUILayout.Button("Install", EditorStyles.miniButtonMid))
             {
                 var latestReleaseURL = $"{VrcBase}{SDK3World}";
-                HandleDownload(nameof(SDK3World), latestReleaseURL, "unitypackage");
+                HandleDownload(nameof(SDK3World), latestReleaseURL, $"{nameof(SDK3World)}.unitypackage");
             }
 
             GUILayout.Space(40);
@@ -78,16 +78,16 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             GUILayout.Label("UdonSharp", EditorStyles.boldLabel);
             GUILayout.Label("UdonSharp is a compiler that compiles C# to Udon assembly");
-            AddInstallButton(nameof(UdonSharp), UdonSharp, UdonSharpNameFormat, "unitypackage");
+            AddInstallButton(nameof(UdonSharp), UdonSharp, UdonSharpNameFormat);
 
             GUILayout.Label("CyanEmu", EditorStyles.boldLabel);
             GUILayout.Label("A VRChat client emulator in Unity for SDK2 and SDK3");
-            AddInstallButton(nameof(CyanEmu), CyanEmu, CyanEmuNameFormat, "unitypackage");
+            AddInstallButton(nameof(CyanEmu), CyanEmu, CyanEmuNameFormat);
 
             GUILayout.Label("VRWorld Toolkit", EditorStyles.boldLabel);
             GUILayout.Label("VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more" +
                             "\naccessible and lower the entry-level to make a good performing world");
-            AddInstallButton(nameof(VRWorldToolkit), VRWorldToolkit, VRWorldToolkitNameFormat, "unitypackage");
+            AddInstallButton(nameof(VRWorldToolkit), VRWorldToolkit, VRWorldToolkitNameFormat);
 
             GUILayout.Space(40);
 
@@ -102,18 +102,18 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.Label("VRCPlayersOnlyMirror SDK2", EditorStyles.boldLabel);
             GUILayout.Label("VRCPlayersOnlyMirror is a simple mirror prefab that shows players" +
                             "\nonly without any background");
-            AddInstallButton(nameof(VrcPlayersOnlyMirrorSDK2), VrcPlayersOnlyMirrorSDK2, VrcPlayersOnlyMirrorSDK2NameFormat,
-                "unitypackage");
+            AddInstallButton(nameof(VrcPlayersOnlyMirrorSDK2), VrcPlayersOnlyMirrorSDK2,
+                VrcPlayersOnlyMirrorSDK2NameFormat);
 
             GUILayout.Label("VRCPlayersOnlyMirror SDK3", EditorStyles.boldLabel);
             GUILayout.Label("VRCPlayersOnlyMirror is a simple mirror prefab that shows players" +
                             "\nonly without any background");
-            AddInstallButton(nameof(VrcPlayersOnlyMirrorSDK3), VrcPlayersOnlyMirrorSDK3, VrcPlayersOnlyMirrorSDK3NameFormat,
-                "unitypackage");
+            AddInstallButton(nameof(VrcPlayersOnlyMirrorSDK3), VrcPlayersOnlyMirrorSDK3,
+                VrcPlayersOnlyMirrorSDK3NameFormat);
 
             GUILayout.Label("USharpVideo", EditorStyles.boldLabel);
             GUILayout.Label("A basic video player made for VRChat using Udon and UdonSharp");
-            AddInstallButton(nameof(USharpVideo), USharpVideo, USharpVideoNameFormat, "unitypackage");
+            AddInstallButton(nameof(USharpVideo), USharpVideo, USharpVideoNameFormat);
         }
 
         [MenuItem("VRCToolkit/VRCPackageManager")]
@@ -122,14 +122,15 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
         }
 
-        private void AddInstallButton(string packageName, string repoName, string format, string extension)
+        private static void AddInstallButton(string packageName, string repoName, string format)
         {
             if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
-            var latestReleaseURL = GetLatestReleaseURL(repoName, packageName, format);
-            HandleDownload(packageName, latestReleaseURL, extension);
+            var latestReleaseFileName = GetLatestReleaseFileName(repoName, packageName, format);
+            var latestReleaseURL = GitHubRepoBase + repoName + GitHubRepoLatestDownload + latestReleaseFileName;
+            HandleDownload(packageName, latestReleaseURL, latestReleaseFileName);
         }
 
-        private string GetLatestReleaseURL(string repo, string repoName, string nameFormat)
+        private static string GetLatestReleaseFileName(string repo, string repoName, string nameFormat)
         {
             var url = GitHubAPIBase + repo + GitHubAPILatestRelease;
             Debug.Log($"{LogPrefix} Requesting for latest version of {repoName} using URL: {url}");
@@ -143,16 +144,15 @@ namespace VRCToolkit.VRCPackageManager.Editor
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
             var fileName = string.Format(nameFormat, repoName, gitHubData.tag_name);
-            var downloadURL = GitHubRepoBase + repo + GitHubRepoLatestDownload + fileName;
             Debug.Log($"{LogPrefix} Found latest version of {gitHubData.tag_name}");
-            return downloadURL;
+            return fileName;
         }
 
-        private void HandleDownload(string fileName, string url, string extension)
+        private static void HandleDownload(string packageName, string url, string fileName)
         {
-            Debug.Log($"{LogPrefix} Attempting to download {fileName} using URL {url}");
+            Debug.Log($"{LogPrefix} Attempting to download {packageName} using URL {url}");
             var uwr = new UnityWebRequest(url);
-            var path = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Downloads/{fileName}.{extension}";
+            var path = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Downloads/{fileName}";
             uwr.downloadHandler = new DownloadHandlerFile(path);
             uwr.SendWebRequest();
 
@@ -162,7 +162,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             if (uwr.error == null)
             {
-                Debug.Log($"{LogPrefix} Package successfully downloaded. Importing package!");
+                Debug.Log($"{LogPrefix} {packageName} successfully downloaded. Importing unitypackage!");
                 AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
                 Process.Start(path);
             }
