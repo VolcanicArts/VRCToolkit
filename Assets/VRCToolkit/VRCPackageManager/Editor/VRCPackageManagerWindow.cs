@@ -136,7 +136,9 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             while (!uwr.isDone)
             {
-            } // wait for download
+                EditorUtility.DisplayProgressBar($"[VRCPackageManager] Getting latest version of {repoName}", "", uwr.downloadProgress);
+            }
+            EditorUtility.ClearProgressBar();
 
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
@@ -155,7 +157,9 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             while (!uwr.isDone)
             {
-            } // wait for download
+                EditorUtility.DisplayProgressBar($"[VRCPackageManager] Downloading {packageName}", "", uwr.downloadProgress);
+            }
+            EditorUtility.ClearProgressBar();
 
             if (uwr.error == null)
             {
