@@ -123,6 +123,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.Requirements}"));
             if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
             var latestReleaseFileName = GetLatestReleaseFileName(package.RepoName, package.FormattedName, package.FileNameFormat);
+            if (latestReleaseFileName == null) return;
             var latestReleaseURL = GitHubRepoBase + package.RepoName + GitHubRepoLatestDownload + latestReleaseFileName;
             HandleDownload(package.FormattedName, latestReleaseURL, latestReleaseFileName);
         }
@@ -139,6 +140,12 @@ namespace VRCToolkit.VRCPackageManager.Editor
                 EditorUtility.DisplayProgressBar($"[VRCPackageManager] Getting latest version of {repoName}", "", uwr.downloadProgress);
             }
             EditorUtility.ClearProgressBar();
+
+            if (uwr.error != null)
+            {
+                Debug.LogError($"Could not get latest version of {repoName}. Aborting download");
+                return null;
+            }
 
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
