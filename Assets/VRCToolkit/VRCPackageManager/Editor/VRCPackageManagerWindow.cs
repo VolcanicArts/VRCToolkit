@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -8,6 +8,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
 {
     public class VRCPackageManagerWindow : EditorWindow
     {
+        private Vector2 scrollPosition;
+        
         private const string LogPrefix = "[VRCToolkit/VRCPackageManager]";
 
         private const string VrcBase = "https://vrchat.com/download/";
@@ -66,6 +68,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private void OnGUI()
         {
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
+            
             AddSectionTitle("VRC SDKs");
             AddSDKInstallButton(nameof(SDK2), SDK2);
             AddSDKInstallButton(nameof(SDK3Avatar), SDK3Avatar);
@@ -84,6 +88,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
             AddVRCPackage(VRCPlayersOnlyMirrorSDK2);
             AddVRCPackage(VRCPlayersOnlyMirrorSDK3);
             AddVRCPackage(USharpVideo);
+            
+            GUILayout.EndScrollView();
         }
 
         [MenuItem("VRCToolkit/VRCPackageManager")]
