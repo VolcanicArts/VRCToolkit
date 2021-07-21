@@ -1,8 +1,7 @@
-using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
-using Debug = UnityEngine.Debug;
+using VRCToolkit.VRCPackageManager.Editor.GitHub;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
@@ -67,7 +66,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             packageDownloader.ExecuteDownload();
         }
 
-        private static void AddVRCPackage(VRCPackage package)
+        private static void AddVRCPackage(VRCPackage.VRCPackage package)
         {
             GUILayout.Label(package.formattedName, EditorStyles.boldLabel);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);

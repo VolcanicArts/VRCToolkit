@@ -49,6 +49,13 @@
           "fileNameFormat": "{0}_{1}.unitypackage",
           "description": "A basic video player made for VRChat using Udon and UdonSharp",
           "requirements": "UdonSharp"
+        },
+        {
+          "formattedName": "AudioLink",
+          "repoName": "llealloo/vrc-udon-audio-link",
+          "fileNameFormat": "{0}_v{1}.unitypackage",
+          "description": "AudioLink is a system that analyzes and processes in-world audio into many different highly reactive data streams and exposes the data to VRChat Udon, world shaders, and avatar shaders",
+          "requirements": "UdonSharp"
         }
       ]
     }

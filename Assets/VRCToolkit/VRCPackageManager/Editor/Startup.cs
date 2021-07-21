@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using UnityEditor;
 using UnityEngine;
+using VRCToolkit.VRCPackageManager.Editor.VRCPackage;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
