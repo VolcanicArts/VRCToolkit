@@ -7,7 +7,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
 {
     public class VRCPackageManagerWindow : EditorWindow
     {
-        private Vector2 scrollPosition;
+        private static Vector2 scrollPosition;
+        private static bool[] foldouts;
 
         private const string VrcBase = "https://vrchat.com/download/";
         private const string SDK2 = "sdk2";
@@ -22,16 +23,30 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private void OnGUI()
         {
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
-            
-            AddSectionTitle("VRC SDKs");
-            AddSDKInstallButton(nameof(SDK2), SDK2);
-            AddSDKInstallButton(nameof(SDK3Avatar), SDK3Avatar);
-            AddSDKInstallButton(nameof(SDK3World), SDK3World);
 
-            foreach (var section in Startup.packageData.sections)
+            AddCenteredTitle("VRCPackageManager");
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(40);
+            GUILayout.Label(
+                "Welcome to the VRCPackageManager. Here you'll find a collection of useful addons, prefabs, and the official SDKs for VRChat",
+                EditorStyles.wordWrappedLabel);
+            GUILayout.Space(40);
+            GUILayout.EndHorizontal();
+            GUILayout.Space(20);
+            
+            foldouts[0] = EditorGUILayout.Foldout(foldouts[0], "VRC SDKs");
+            if (foldouts[0])
             {
-                GUILayout.Space(40);
-                AddSectionTitle(section.title);
+                AddSDKInstallButton(nameof(SDK2), SDK2);
+                AddSDKInstallButton(nameof(SDK3Avatar), SDK3Avatar);
+                AddSDKInstallButton(nameof(SDK3World), SDK3World);
+            }
+
+            for (var i = 0; i < Startup.packageData.sections.Length; i++)
+            {
+                var section = Startup.packageData.sections[i];
+                foldouts[i+1] = EditorGUILayout.Foldout(foldouts[i+1], section.title);
+                if (!foldouts[i+1]) continue;
                 foreach (var package in section.packages)
                 {
                     AddVRCPackage(package);
@@ -44,23 +59,32 @@ namespace VRCToolkit.VRCPackageManager.Editor
         [MenuItem("VRCToolkit/VRCPackageManager")]
         public static void ShowWindow()
         {
+            foldouts = new bool[Startup.packageData.sections.Length + 1];
             GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
         }
 
-        private static void AddSectionTitle(string title)
+        private static void AddCenteredTitle(string title)
         {
-            using (new GUILayout.HorizontalScope())
-            {
-                GUILayout.FlexibleSpace();
-                GUILayout.Label(title, EditorStyles.boldLabel);
-                GUILayout.FlexibleSpace();
-            }
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.Label(title, EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
         }
 
         private static void AddSDKInstallButton(string name, string endpoint)
         {
-            GUILayout.Label(name, EditorStyles.boldLabel);
-            if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
+            AddCenteredTitle(name);
+            
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(100);
+            var clicked = GUILayout.Button("Install", EditorStyles.miniButton);
+            GUILayout.Space(100);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.Space(20);
+
+            if (!clicked) return;
             var latestReleaseURL = $"{VrcBase}{endpoint}";
             var packageDownloader = new PackageDownloader(name, latestReleaseURL, $"{name}.unitypackage");
             packageDownloader.ExecuteDownload();
@@ -68,10 +92,19 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private static void AddVRCPackage(VRCPackage.VRCPackage package)
         {
-            GUILayout.Label(package.formattedName, EditorStyles.boldLabel);
+            AddCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
             EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.requirements}"));
-            if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
+            
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(100);
+            var clicked = GUILayout.Button("Install", EditorStyles.miniButton);
+            GUILayout.Space(100);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.Space(20);
+
+            if (!clicked) return;
             var latestReleaseFileName = GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
             if (latestReleaseFileName == null) return;
             var latestReleaseURL = GitHubRepoBase + package.repoName + GitHubRepoLatestDownload + latestReleaseFileName;
