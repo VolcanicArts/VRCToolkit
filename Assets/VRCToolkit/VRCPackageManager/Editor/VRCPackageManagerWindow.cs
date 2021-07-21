@@ -83,7 +83,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private static string GetLatestReleaseFileName(string repo, string repoName, string nameFormat)
         {
             var url = GitHubAPIBase + repo + GitHubAPILatestRelease;
-            Debug.Log($"{LogPrefix} Requesting for latest version of {repoName} using URL: {url}");
+            Log($"Requesting for latest version of {repoName} using URL: {url}");
             var uwr = new UnityWebRequest(url) {downloadHandler = new DownloadHandlerBuffer()};
             uwr.SendWebRequest();
 
@@ -95,20 +95,20 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             if (uwr.error != null)
             {
-                Debug.LogError($"Could not get latest version of {repoName}. Aborting download");
+                LogError($"Could not get latest version of {repoName}. Aborting download");
                 return null;
             }
 
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
             var fileName = string.Format(nameFormat, repoName, gitHubData.tag_name);
-            Debug.Log($"{LogPrefix} Found latest version of {gitHubData.tag_name}");
+            Log($"Found latest version of {gitHubData.tag_name}");
             return fileName;
         }
 
         private static void HandleDownload(string packageName, string url, string fileName)
         {
-            Debug.Log($"{LogPrefix} Attempting to download {packageName} using URL {url}");
+            Log($"Attempting to download {packageName} using URL {url}");
             var uwr = new UnityWebRequest(url);
             var path = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Downloads/{fileName}";
             uwr.downloadHandler = new DownloadHandlerFile(path);
@@ -122,7 +122,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             if (uwr.error == null)
             {
-                Debug.Log($"{LogPrefix} {packageName} successfully downloaded. Importing unitypackage!");
+                Log($"{packageName} successfully downloaded. Importing unitypackage!");
                 AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
                 Process.Start(path);
             }
@@ -130,6 +130,16 @@ namespace VRCToolkit.VRCPackageManager.Editor
             {
                 Debug.LogError(uwr.error);
             }
+        }
+
+        private static void Log(string message)
+        {
+            Debug.Log($"{LogPrefix} {message}");
+        }
+
+        private static void LogError(string message)
+        {
+            Debug.LogError($"{LogPrefix} {message}");
         }
     }
 }
