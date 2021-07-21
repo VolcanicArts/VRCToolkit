@@ -33,6 +33,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.Space(40);
             GUILayout.EndHorizontal();
             GUILayout.Space(20);
+
+            if (foldouts == null) foldouts = new bool[Startup.packageData.sections.Length + 1];
             
             foldouts[0] = EditorGUILayout.Foldout(foldouts[0], "VRC SDKs");
             if (foldouts[0])
@@ -45,8 +47,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
             for (var i = 0; i < Startup.packageData.sections.Length; i++)
             {
                 var section = Startup.packageData.sections[i];
-                foldouts[i+1] = EditorGUILayout.Foldout(foldouts[i+1], section.title);
-                if (!foldouts[i+1]) continue;
+                foldouts[i + 1] = EditorGUILayout.Foldout(foldouts[i + 1], section.title);
+                if (!foldouts[i + 1]) continue;
                 foreach (var package in section.packages)
                 {
                     AddVRCPackage(package);
@@ -59,7 +61,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
         [MenuItem("VRCToolkit/VRCPackageManager")]
         public static void ShowWindow()
         {
-            foldouts = new bool[Startup.packageData.sections.Length + 1];
             GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
         }
 
