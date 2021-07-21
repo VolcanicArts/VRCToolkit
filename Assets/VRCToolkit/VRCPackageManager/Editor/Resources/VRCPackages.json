@@ -1,0 +1,56 @@
+﻿{
+  "sections": [
+    {
+      "title": "Tools",
+      "packages": [
+        {
+          "formattedName": "UdonSharp",
+          "repoName": "MerlinVR/UdonSharp",
+          "fileNameFormat": "{0}_{1}.unitypackage",
+          "description": "UdonSharp is a compiler that compiles C# to Udon assembly",
+          "requirements": "SDK3World"
+        },
+        {
+          "formattedName": "CyanEmu",
+          "repoName": "CyanLaser/CyanEmu",
+          "fileNameFormat": "{0}.{1}.unitypackage",
+          "description": "A VRChat client emulator in Unity for SDK2 and SDK3",
+          "requirements": "SDK2/SDK3World"
+        },
+        {
+          "formattedName": "VRWorldToolkit",
+          "repoName": "oneVR/VRWorldToolkit",
+          "fileNameFormat": "{0}{1}.unitypackage",
+          "description": "VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more accessible and lower the entry-level to make a good performing world",
+          "requirements": "SDK3World"
+        }
+      ]
+    },
+    {
+      "title": "Prefabs",
+      "packages": [
+        {
+          "formattedName": "VRCPlayersOnlyMirrorSDK2",
+          "repoName": "acertainbluecat/VRCPlayersOnlyMirror",
+          "fileNameFormat": "{0}_{1}.unitypackage",
+          "description": "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background",
+          "requirements": "SDK2"
+        },
+        {
+          "formattedName": "VRCPlayersOnlyMirrorSDK3",
+          "repoName": "acertainbluecat/VRCPlayersOnlyMirror",
+          "fileNameFormat": "{0}_{1}.unitypackage",
+          "description": "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background",
+          "requirements": "SDK3World"
+        },
+        {
+          "formattedName": "USharpVideo",
+          "repoName": "MerlinVR/USharpVideo",
+          "fileNameFormat": "{0}_{1}.unitypackage",
+          "description": "A basic video player made for VRChat using Udon and UdonSharp",
+          "requirements": "UdonSharp"
+        }
+      ]
+    }
+  ]
+}
