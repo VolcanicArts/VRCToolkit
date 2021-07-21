@@ -9,8 +9,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
     public class VRCPackageManagerWindow : EditorWindow
     {
         private Vector2 scrollPosition;
-        
-        private const string LogPrefix = "[VRCToolkit/VRCPackageManager]";
 
         private const string VrcBase = "https://vrchat.com/download/";
         private const string SDK2 = "sdk2";
@@ -65,7 +63,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.Label(name, EditorStyles.boldLabel);
             if (!GUILayout.Button("Install", EditorStyles.miniButtonMid)) return;
             var latestReleaseURL = $"{VrcBase}{endpoint}";
-            HandleDownload(name, latestReleaseURL, $"{name}.unitypackage");
+            var packageDownloader = new PackageDownloader(name, latestReleaseURL, $"{name}.unitypackage");
+            packageDownloader.ExecuteDownload();
         }
 
         private static void AddVRCPackage(VRCPackage package)
@@ -77,13 +76,14 @@ namespace VRCToolkit.VRCPackageManager.Editor
             var latestReleaseFileName = GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
             if (latestReleaseFileName == null) return;
             var latestReleaseURL = GitHubRepoBase + package.repoName + GitHubRepoLatestDownload + latestReleaseFileName;
-            HandleDownload(package.formattedName, latestReleaseURL, latestReleaseFileName);
+            var packageDownloader = new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
+            packageDownloader.ExecuteDownload();
         }
 
         private static string GetLatestReleaseFileName(string repo, string repoName, string nameFormat)
         {
             var url = GitHubAPIBase + repo + GitHubAPILatestRelease;
-            Log($"Requesting for latest version of {repoName} using URL: {url}");
+            Logger.Log($"Requesting for latest version of {repoName} using URL: {url}");
             var uwr = new UnityWebRequest(url) {downloadHandler = new DownloadHandlerBuffer()};
             uwr.SendWebRequest();
 
@@ -95,51 +95,15 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             if (uwr.error != null)
             {
-                LogError($"Could not get latest version of {repoName}. Aborting download");
+                Logger.LogError($"Could not get latest version of {repoName}. Aborting download");
                 return null;
             }
 
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
             var fileName = string.Format(nameFormat, repoName, gitHubData.tag_name);
-            Log($"Found latest version of {gitHubData.tag_name}");
+            Logger.Log($"Found latest version of {gitHubData.tag_name}");
             return fileName;
-        }
-
-        private static void HandleDownload(string packageName, string url, string fileName)
-        {
-            Log($"Attempting to download {packageName} using URL {url}");
-            var uwr = new UnityWebRequest(url);
-            var path = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Downloads/{fileName}";
-            uwr.downloadHandler = new DownloadHandlerFile(path);
-            uwr.SendWebRequest();
-
-            while (!uwr.isDone)
-            {
-                EditorUtility.DisplayProgressBar($"[VRCPackageManager] Downloading {packageName}", "", uwr.downloadProgress);
-            }
-            EditorUtility.ClearProgressBar();
-
-            if (uwr.error == null)
-            {
-                Log($"{packageName} successfully downloaded. Importing unitypackage!");
-                AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-                Process.Start(path);
-            }
-            else
-            {
-                Debug.LogError(uwr.error);
-            }
-        }
-
-        private static void Log(string message)
-        {
-            Debug.Log($"{LogPrefix} {message}");
-        }
-
-        private static void LogError(string message)
-        {
-            Debug.LogError($"{LogPrefix} {message}");
         }
     }
 }
