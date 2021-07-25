@@ -96,7 +96,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         {
             AddCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
-            EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.requirements}"));
+            if (!string.IsNullOrEmpty(package.requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.requirements}"));
             
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);

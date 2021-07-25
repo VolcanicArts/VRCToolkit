@@ -3,6 +3,13 @@
     {
       "packages": [
         {
+          "formattedName": "VRCPackageManager",
+          "repoName": "VolcanicArts/VRCToolkit",
+          "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
+          "description": "A collection of commonly used tools and prefabs, as well as the official VRC SDKs",
+          "requirements": ""
+        },
+        {
           "formattedName": "UdonBehaviours",
           "repoName": "VolcanicArts/VRCToolkit",
           "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
