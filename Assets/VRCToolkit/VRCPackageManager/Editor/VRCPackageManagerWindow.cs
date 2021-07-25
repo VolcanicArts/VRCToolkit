@@ -28,7 +28,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private void OnGUI()
         {
             if (packageData == null) LoadPackageData();
-            
+
             AddCenteredTitle("VRCPackageManager");
             GUILayout.BeginHorizontal();
             GUILayout.Space(40);
@@ -37,6 +37,12 @@ namespace VRCToolkit.VRCPackageManager.Editor
                 EditorStyles.wordWrappedLabel);
             GUILayout.Space(40);
             GUILayout.EndHorizontal();
+            
+            if (EditorApplication.isPlaying)
+            {
+                AddCenteredTitle("Cannot download packages in play mode");
+                return;
+            }
 
             selectedPage = GUILayout.Toolbar(selectedPage, pageStrings);
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
