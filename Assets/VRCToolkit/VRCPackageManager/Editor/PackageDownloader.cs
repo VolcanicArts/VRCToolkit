@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -36,7 +35,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             {
                 Logger.Log($"{packageName} successfully downloaded. Importing unitypackage!");
                 AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
-                Process.Start(path);
+                AssetDatabase.ImportPackage(path, false);
             }
             else
             {
