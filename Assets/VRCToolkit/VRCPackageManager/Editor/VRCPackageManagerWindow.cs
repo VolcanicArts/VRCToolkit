@@ -8,7 +8,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
     public class VRCPackageManagerWindow : EditorWindow
     {
         private static Vector2 scrollPosition;
-        private static bool[] foldouts;
+        private int selectedPage;
+        private readonly string[] pageStrings = {"VRC SDKs", "VRCToolkit", "Tools", "Prefabs"};
 
         private const string VrcBase = "https://vrchat.com/download/";
         private const string SDK2 = "sdk2";
@@ -22,40 +23,40 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private void OnGUI()
         {
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
-
             AddCenteredTitle("VRCPackageManager");
             GUILayout.BeginHorizontal();
             GUILayout.Space(40);
             GUILayout.Label(
-                "Welcome to the VRCPackageManager. Here you'll find a collection of useful addons, prefabs, and the official SDKs for VRChat",
+                "Welcome to the VRCPackageManager. Here you'll find a collection of useful tools, prefabs, the official SDKs for VRChat, and other packages in VRCToolkit",
                 EditorStyles.wordWrappedLabel);
             GUILayout.Space(40);
             GUILayout.EndHorizontal();
-            GUILayout.Space(20);
 
-            if (foldouts == null) foldouts = new bool[Startup.packageData.sections.Length + 1];
+            selectedPage = GUILayout.Toolbar(selectedPage, pageStrings);
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
+
+            switch (selectedPage)
+            {
+                case 0:
+                    AddSDKInstallButton(nameof(SDK2), SDK2);
+                    AddSDKInstallButton(nameof(SDK3Avatar), SDK3Avatar);
+                    AddSDKInstallButton(nameof(SDK3World), SDK3World);
+                    break;
+                default:
+                    AddSectionToPage(selectedPage - 1);
+                    break;
+            }
             
-            foldouts[0] = EditorGUILayout.Foldout(foldouts[0], "VRC SDKs");
-            if (foldouts[0])
-            {
-                AddSDKInstallButton(nameof(SDK2), SDK2);
-                AddSDKInstallButton(nameof(SDK3Avatar), SDK3Avatar);
-                AddSDKInstallButton(nameof(SDK3World), SDK3World);
-            }
-
-            for (var i = 0; i < Startup.packageData.sections.Length; i++)
-            {
-                var section = Startup.packageData.sections[i];
-                foldouts[i + 1] = EditorGUILayout.Foldout(foldouts[i + 1], section.title);
-                if (!foldouts[i + 1]) continue;
-                foreach (var package in section.packages)
-                {
-                    AddVRCPackage(package);
-                }
-            }
-
             GUILayout.EndScrollView();
+        }
+
+        private static void AddSectionToPage(int sectionID)
+        {
+            var section = Startup.packageData.sections[sectionID];
+            foreach (var package in section.packages)
+            {
+                AddVRCPackage(package);   
+            }
         }
 
         [MenuItem("VRCToolkit/VRCPackageManager")]

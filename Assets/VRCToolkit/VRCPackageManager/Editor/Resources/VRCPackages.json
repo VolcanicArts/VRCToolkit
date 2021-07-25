@@ -1,7 +1,17 @@
 ﻿{
   "sections": [
     {
-      "title": "Tools",
+      "packages": [
+        {
+          "formattedName": "UdonBehaviours",
+          "repoName": "VolcanicArts/VRCToolkit",
+          "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
+          "description": "A collection of easy to use scripts that can be modified and used to quickly setup objects in a world before branching out into more complicated behaviours",
+          "requirements": "UdonSharp"
+        }
+      ]
+    },
+    {
       "packages": [
         {
           "formattedName": "UdonSharp",
@@ -27,7 +37,6 @@
       ]
     },
     {
-      "title": "Prefabs",
       "packages": [
         {
           "formattedName": "VRCPlayersOnlyMirrorSDK2",
