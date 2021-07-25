@@ -2,8 +2,8 @@
 A collection of tools designed to aid in the development of VRC avatar and world content.
 
 # Install Instructions
-If you're wanting to use the VRCPackageManager on its own, install that first and then install anything else you want from it.
-If you're wanting to use the VRCPackageManager and UdonBehaviours, install VRCPackageManager, then SDK3World, then UdonSharp, then UdonBehaviours.
+If you're wanting to use VRCPackageManager install that first and then install anything else afterwards.\
+If you're wanting to use UdonBehaviours, install VRCPackageManager, then SDK3World, then UdonSharp, then UdonBehaviours. All are available inside VRCPackageManager.
 
 # Editor
 ## VRCPackageManager
