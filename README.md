@@ -7,7 +7,7 @@ If you're wanting to use the VRCPackageManager and UdonBehaviours, install VRCPa
 
 # Editor
 ## VRCPackageManager
-The VRCPackageManager is a collection of commonly used tools and addons, as well as the latest SDKs, which can be installed with a press of a button. This means no more having to go to the VRC website to find the latest SDK.
+The VRCPackageManager is a collection of useful tools, prefabs, the official SDKs for VRChat, and other packages in VRCToolkit, which can be installed with a press of a button.
 
 # Udon
 ## UdonBehaviours
