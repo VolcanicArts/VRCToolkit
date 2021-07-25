@@ -1,7 +1,9 @@
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
 using VRCToolkit.VRCPackageManager.Editor.GitHub;
+using VRCToolkit.VRCPackageManager.Editor.VRCPackage;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
@@ -21,8 +23,12 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private const string GitHubRepoBase = "https://github.com/";
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
 
+        private static VRCPackageData packageData;
+
         private void OnGUI()
         {
+            if (packageData == null) LoadPackageData();
+            
             AddCenteredTitle("VRCPackageManager");
             GUILayout.BeginHorizontal();
             GUILayout.Space(40);
@@ -52,7 +58,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private static void AddSectionToPage(int sectionID)
         {
-            var section = Startup.packageData.sections[sectionID];
+            var section = packageData.sections[sectionID];
             foreach (var package in section.packages)
             {
                 AddVRCPackage(package);   
@@ -138,6 +144,13 @@ namespace VRCToolkit.VRCPackageManager.Editor
             var fileName = string.Format(nameFormat, repoName, gitHubData.tag_name);
             Logger.Log($"Found latest version of {gitHubData.tag_name}");
             return fileName;
+        }
+
+        private static void LoadPackageData()
+        {
+            var packageDataLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
+            var packageDataJson = File.ReadAllText(packageDataLocation);
+            packageData = JsonUtility.FromJson<VRCPackageData>(packageDataJson);
         }
     }
 }
