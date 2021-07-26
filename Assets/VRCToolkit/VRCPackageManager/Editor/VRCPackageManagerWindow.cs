@@ -10,8 +10,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
 {
     public class VRCPackageManagerWindow : EditorWindow
     {
-        private const string GitHubAPIBase = "https://api.github.com/repos/";
-        private const string GitHubAPILatestRelease = "/releases/latest";
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
         
         private static Vector2 scrollPosition;
@@ -128,7 +126,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             
             if (install)
             {
-                var latestReleaseFileName = GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
+                var latestReleaseFileName = GitHubUtil.GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
                 if (latestReleaseFileName == null) return;
                 var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
                 var packageDownloader = new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
@@ -139,32 +137,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
             {
                 Application.OpenURL(package.GetRepoURL());
             }
-        }
-        
-        private static string GetLatestReleaseFileName(string repoName, string formattedName, string nameFormat)
-        {
-            var url = GitHubAPIBase + repoName + GitHubAPILatestRelease;
-            Logger.Log($"Requesting for latest version of {formattedName} using URL: {url}");
-            var uwr = new UnityWebRequest(url) {downloadHandler = new DownloadHandlerBuffer()};
-            uwr.SendWebRequest();
-
-            while (!uwr.isDone)
-            {
-                EditorUtility.DisplayProgressBar($"[VRCPackageManager] Getting latest version of {formattedName}", "", uwr.downloadProgress);
-            }
-            EditorUtility.ClearProgressBar();
-
-            if (uwr.error != null)
-            {
-                Logger.LogError($"Could not get latest version of {formattedName}. Aborting download");
-                return null;
-            }
-
-            var responseData = uwr.downloadHandler.text;
-            var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
-            var fileName = string.Format(nameFormat, formattedName, gitHubData.tag_name);
-            Logger.Log($"Found latest version of {gitHubData.tag_name}");
-            return fileName;
         }
     }
 }
