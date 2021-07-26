@@ -9,7 +9,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.GitHub
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
         
-        public static string GetLatestReleaseFileName(string repoName, string formattedName, string nameFormat)
+        public static string GetLatestVersion(string repoName, string formattedName)
         {
             var url = GitHubAPIBase + repoName + GitHubAPILatestRelease;
             Logger.Log($"Requesting for latest version of {formattedName} using URL: {url}");
@@ -30,9 +30,8 @@ namespace VRCToolkit.VRCPackageManager.Editor.GitHub
 
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
-            var fileName = string.Format(nameFormat, formattedName, gitHubData.tag_name);
             Logger.Log($"Found latest version of {gitHubData.tag_name}");
-            return fileName;
+            return gitHubData.tag_name;
         }
     }
 }

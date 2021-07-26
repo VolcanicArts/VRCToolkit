@@ -142,8 +142,9 @@ namespace VRCToolkit.VRCPackageManager.Editor
             
             if (install)
             {
-                var latestReleaseFileName = GitHubUtil.GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
-                if (latestReleaseFileName == null) return;
+                var latestVersion = GitHubUtil.GetLatestVersion(package.repoName, package.formattedName);
+                if (latestVersion == null) return;
+                var latestReleaseFileName = string.Format(package.fileNameFormat, package.formattedName, latestVersion);
                 var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
                 var packageDownloader = new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
                 packageDownloader.ExecuteDownload();
