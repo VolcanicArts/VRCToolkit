@@ -13,11 +13,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private int selectedPage;
         private readonly string[] pageStrings = {"VRC SDKs", "VRCToolkit", "Tools", "Prefabs"};
 
-        private const string VrcBase = "https://vrchat.com/download/";
-        private const string SDK2 = "sdk2";
-        private const string SDK3Avatar = "sdk3-avatars";
-        private const string SDK3World = "sdk3-worlds";
-
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
@@ -49,9 +44,9 @@ namespace VRCToolkit.VRCPackageManager.Editor
             switch (selectedPage)
             {
                 case 0:
-                    AddSDKInstallButton(nameof(SDK2), SDK2);
-                    AddSDKInstallButton(nameof(SDK3Avatar), SDK3Avatar);
-                    AddSDKInstallButton(nameof(SDK3World), SDK3World);
+                    AddSDKInstallButton(nameof(SDKURLs.SDK2), SDKURLs.SDK2);
+                    AddSDKInstallButton(nameof(SDKURLs.SDK3Avatar), SDKURLs.SDK3Avatar);
+                    AddSDKInstallButton(nameof(SDKURLs.SDK3World), SDKURLs.SDK3World);
                     break;
                 default:
                     AddSectionToPage(selectedPage - 1);
@@ -85,7 +80,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.EndHorizontal();
         }
 
-        private static void AddSDKInstallButton(string name, string endpoint)
+        private static void AddSDKInstallButton(string name, string url)
         {
             AddCenteredTitle(name);
             
@@ -98,8 +93,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.Space(20);
 
             if (!install) return;
-            var latestReleaseURL = $"{VrcBase}{endpoint}";
-            var packageDownloader = new PackageDownloader(name, latestReleaseURL, $"{name}.unitypackage");
+            var packageDownloader = new PackageDownloader(name, url, $"{name}.unitypackage");
             packageDownloader.ExecuteDownload();
         }
 
