@@ -92,13 +92,13 @@ namespace VRCToolkit.VRCPackageManager.Editor
             
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);
-            var clicked = GUILayout.Button("Install", EditorStyles.miniButton);
+            var install = GUILayout.Button("Install", EditorStyles.miniButton);
             GUILayout.Space(100);
             GUILayout.EndHorizontal();
             
             GUILayout.Space(20);
 
-            if (!clicked) return;
+            if (!install) return;
             var latestReleaseURL = $"{VrcBase}{endpoint}";
             var packageDownloader = new PackageDownloader(name, latestReleaseURL, $"{name}.unitypackage");
             packageDownloader.ExecuteDownload();
@@ -112,18 +112,29 @@ namespace VRCToolkit.VRCPackageManager.Editor
             
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);
-            var clicked = GUILayout.Button("Install", EditorStyles.miniButton);
+            var install = GUILayout.Button("Install Package", EditorStyles.miniButton);
+            var openURL = GUILayout.Button("Open Repository", EditorStyles.miniButton);
             GUILayout.Space(100);
             GUILayout.EndHorizontal();
             
             GUILayout.Space(20);
 
-            if (!clicked) return;
-            var latestReleaseFileName = GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
-            if (latestReleaseFileName == null) return;
-            var latestReleaseURL = GitHubRepoBase + package.repoName + GitHubRepoLatestDownload + latestReleaseFileName;
-            var packageDownloader = new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
-            packageDownloader.ExecuteDownload();
+            if (install)
+            {
+                var latestReleaseFileName =
+                    GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
+                if (latestReleaseFileName == null) return;
+                var latestReleaseURL =
+                    GitHubRepoBase + package.repoName + GitHubRepoLatestDownload + latestReleaseFileName;
+                var packageDownloader =
+                    new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
+                packageDownloader.ExecuteDownload();
+            }
+
+            if (openURL)
+            {
+                Application.OpenURL(GitHubRepoBase + package.repoName);
+            }
         }
 
         private static string GetLatestReleaseFileName(string repo, string repoName, string nameFormat)
