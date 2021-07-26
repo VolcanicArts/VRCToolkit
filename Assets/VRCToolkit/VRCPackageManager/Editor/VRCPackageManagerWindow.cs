@@ -30,6 +30,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             if (CheckIfPlaying()) return;
             DrawPageTitles();
             DrawMainContent();
+            DrawFooter();
         }
 
         private static void LoadData()
@@ -77,6 +78,15 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.EndScrollView();
         }
 
+        private static void DrawFooter()
+        {
+            DrawCenteredTitle("Settings");
+            var clearCachedData = DrawCenteredButton("Clear Cached Data");
+            GUILayout.Space(20);
+
+            if (clearCachedData) AssetDatabase.DeleteAsset("Assets/VRCToolkit/VRCPackageManager/Downloads");
+        }
+
         private static void DrawCenteredTitle(string title)
         {
             GUILayout.BeginHorizontal();
@@ -85,15 +95,21 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
+
+        private static bool DrawCenteredButton(string text)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(100);
+            var pressed = GUILayout.Button(text, EditorStyles.miniButton);
+            GUILayout.Space(100);
+            GUILayout.EndHorizontal();
+            return pressed;
+        }
         
         private static void DrawSDK(string name, string url)
         {
             DrawCenteredTitle(name);
-            GUILayout.BeginHorizontal();
-            GUILayout.Space(100);
-            var install = GUILayout.Button("Install", EditorStyles.miniButton);
-            GUILayout.Space(100);
-            GUILayout.EndHorizontal();
+            var install = DrawCenteredButton("Install");
             GUILayout.Space(20);
             
             if (!install) return;
