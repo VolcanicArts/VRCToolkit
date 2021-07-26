@@ -1,5 +1,5 @@
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -10,69 +10,76 @@ namespace VRCToolkit.VRCPackageManager.Editor
 {
     public class VRCPackageManagerWindow : EditorWindow
     {
-        private static Vector2 scrollPosition;
-        private int selectedPage;
-        private List<string> pageTitles;
-
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
-
+        
+        private static Vector2 scrollPosition;
+        private static int selectedPage;
         private static VRCPackageData packageData;
-
-        private void OnGUI()
-        {
-            if (packageData == null) LoadPackageData();
-
-            AddCenteredTitle("VRCPackageManager");
-            GUILayout.BeginHorizontal();
-            GUILayout.Space(40);
-            GUILayout.Label(
-                "Welcome to the VRCPackageManager. Here you'll find a collection of useful tools, prefabs, the official SDKs for VRChat, and other packages in VRCToolkit",
-                EditorStyles.wordWrappedLabel);
-            GUILayout.Space(40);
-            GUILayout.EndHorizontal();
-            
-            if (EditorApplication.isPlaying)
-            {
-                AddCenteredTitle("Cannot download packages in play mode");
-                return;
-            }
-
-            selectedPage = GUILayout.Toolbar(selectedPage, pageTitles.ToArray());
-            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
-
-            switch (selectedPage)
-            {
-                case 0:
-                    AddSDKInstallButton(nameof(SDKURLs.SDK2), SDKURLs.SDK2);
-                    AddSDKInstallButton(nameof(SDKURLs.SDK3Avatar), SDKURLs.SDK3Avatar);
-                    AddSDKInstallButton(nameof(SDKURLs.SDK3World), SDKURLs.SDK3World);
-                    break;
-                default:
-                    AddSectionToPage(selectedPage - 1);
-                    break;
-            }
-            
-            GUILayout.EndScrollView();
-        }
-
-        private static void AddSectionToPage(int sectionID)
-        {
-            var section = packageData.pages[sectionID];
-            foreach (var package in section.packages)
-            {
-                AddVRCPackage(package);   
-            }
-        }
-
+        private static List<string> pageTitles;
+        
         [MenuItem("VRCToolkit/VRCPackageManager")]
         public static void ShowWindow()
         {
             GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
         }
 
-        private static void AddCenteredTitle(string title)
+        private void OnGUI()
+        {
+            if (packageData == null) LoadData();
+            DrawTitle();
+            if (CheckIfPlaying()) return;
+            DrawPageTitles();
+            DrawMainContent();
+        }
+
+        private static void LoadData()
+        {
+            packageData = PackageManager.LoadDataFromFile();
+            pageTitles = new List<string> {"VRC SDKs"};
+            pageTitles.AddRange(packageData.pages.Select(page => page.title));
+        }
+
+        private static void DrawTitle()
+        {
+            DrawCenteredTitle("VRCPackageManager");
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(40);
+            GUILayout.Label("Welcome to the VRCPackageManager. Here you'll find a collection of useful tools, prefabs, the official SDKs for VRChat, and other packages in VRCToolkit", EditorStyles.wordWrappedLabel);
+            GUILayout.Space(40);
+            GUILayout.EndHorizontal();
+        }
+
+        private static bool CheckIfPlaying()
+        {
+            if (!EditorApplication.isPlaying) return false;
+            DrawCenteredTitle("Cannot download packages in play mode");
+            return true;
+        }
+
+        private static void DrawPageTitles()
+        {
+            selectedPage = GUILayout.Toolbar(selectedPage, pageTitles.ToArray());
+        }
+
+        private static void DrawMainContent()
+        {
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
+            if (selectedPage == 0)
+            {
+                DrawSDK(nameof(SDKURLs.SDK2), SDKURLs.SDK2);
+                DrawSDK(nameof(SDKURLs.SDK3Avatar), SDKURLs.SDK3Avatar);
+                DrawSDK(nameof(SDKURLs.SDK3World), SDKURLs.SDK3World);
+            }
+            else
+            {
+                DrawPage(selectedPage - 1);
+            }
+            GUILayout.EndScrollView();
+        }
+
+        private static void DrawCenteredTitle(string title)
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -80,39 +87,45 @@ namespace VRCToolkit.VRCPackageManager.Editor
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }
-
-        private static void AddSDKInstallButton(string name, string url)
+        
+        private static void DrawSDK(string name, string url)
         {
-            AddCenteredTitle(name);
-            
+            DrawCenteredTitle(name);
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);
             var install = GUILayout.Button("Install", EditorStyles.miniButton);
             GUILayout.Space(100);
             GUILayout.EndHorizontal();
-            
             GUILayout.Space(20);
-
+            
             if (!install) return;
             var packageDownloader = new PackageDownloader(name, url, $"{name}.unitypackage");
             packageDownloader.ExecuteDownload();
         }
 
-        private static void AddVRCPackage(VRCPackage.VRCPackage package)
+        private static void DrawPage(int pageID)
         {
-            AddCenteredTitle(package.formattedName);
+            var section = packageData.pages[pageID];
+            foreach (var package in section.packages)
+            {
+                DrawVRCPackage(package);   
+            }
+        }
+        
+        private static void DrawVRCPackage(VRCPackage.VRCPackage package)
+        {
+            DrawCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
             if (!string.IsNullOrEmpty(package.requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.requirements}"));
             
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);
             var install = GUILayout.Button("Install Package", EditorStyles.miniButton);
-            var openURL = GUILayout.Button("Open Repository", EditorStyles.miniButton);
+            var openRepo = GUILayout.Button("Open Repository", EditorStyles.miniButton);
             GUILayout.Space(100);
             GUILayout.EndHorizontal();
-            
             GUILayout.Space(20);
-
+            
             if (install)
             {
                 var latestReleaseFileName = GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
@@ -122,12 +135,12 @@ namespace VRCToolkit.VRCPackageManager.Editor
                 packageDownloader.ExecuteDownload();
             }
 
-            if (openURL)
+            if (openRepo)
             {
                 Application.OpenURL(package.GetRepoURL());
             }
         }
-
+        
         private static string GetLatestReleaseFileName(string repoName, string formattedName, string nameFormat)
         {
             var url = GitHubAPIBase + repoName + GitHubAPILatestRelease;
@@ -152,19 +165,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
             var fileName = string.Format(nameFormat, formattedName, gitHubData.tag_name);
             Logger.Log($"Found latest version of {gitHubData.tag_name}");
             return fileName;
-        }
-
-        private void LoadPackageData()
-        {
-            var packageDataLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
-            var packageDataJson = File.ReadAllText(packageDataLocation);
-            packageData = JsonUtility.FromJson<VRCPackageData>(packageDataJson);
-
-            pageTitles = new List<string> {"VRC SDKs"};
-            foreach (var page in packageData.pages)
-            {
-                pageTitles.Add(page.title);
-            }
         }
     }
 }
