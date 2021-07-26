@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
     {
         private static Vector2 scrollPosition;
         private int selectedPage;
-        private readonly string[] pageStrings = {"VRC SDKs", "VRCToolkit", "Tools", "Prefabs"};
+        private List<string> pageTitles;
 
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
@@ -38,7 +39,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
                 return;
             }
 
-            selectedPage = GUILayout.Toolbar(selectedPage, pageStrings);
+            selectedPage = GUILayout.Toolbar(selectedPage, pageTitles.ToArray());
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
 
             switch (selectedPage)
@@ -58,7 +59,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private static void AddSectionToPage(int sectionID)
         {
-            var section = packageData.sections[sectionID];
+            var section = packageData.pages[sectionID];
             foreach (var package in section.packages)
             {
                 AddVRCPackage(package);   
@@ -153,11 +154,17 @@ namespace VRCToolkit.VRCPackageManager.Editor
             return fileName;
         }
 
-        private static void LoadPackageData()
+        private void LoadPackageData()
         {
             var packageDataLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
             var packageDataJson = File.ReadAllText(packageDataLocation);
             packageData = JsonUtility.FromJson<VRCPackageData>(packageDataJson);
+
+            pageTitles = new List<string> {"VRC SDKs"};
+            foreach (var page in packageData.pages)
+            {
+                pageTitles.Add(page.title);
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿{
-  "sections": [
+  "pages": [
     {
+      "title": "VRCToolkit",
       "packages": [
         {
           "formattedName": "VRCPackageManager",
@@ -19,6 +20,7 @@
       ]
     },
     {
+      "title": "Tools",
       "packages": [
         {
           "formattedName": "UdonSharp",
@@ -44,6 +46,7 @@
       ]
     },
     {
+      "title": "Prefabs",
       "packages": [
         {
           "formattedName": "VRCPlayersOnlyMirrorSDK2",
