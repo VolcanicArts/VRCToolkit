@@ -20,7 +20,6 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
-        private const string GitHubRepoBase = "https://github.com/";
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
 
         private static VRCPackageData packageData;
@@ -121,19 +120,16 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             if (install)
             {
-                var latestReleaseFileName =
-                    GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
+                var latestReleaseFileName = GetLatestReleaseFileName(package.repoName, package.formattedName, package.fileNameFormat);
                 if (latestReleaseFileName == null) return;
-                var latestReleaseURL =
-                    GitHubRepoBase + package.repoName + GitHubRepoLatestDownload + latestReleaseFileName;
-                var packageDownloader =
-                    new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
+                var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
+                var packageDownloader = new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
                 packageDownloader.ExecuteDownload();
             }
 
             if (openURL)
             {
-                Application.OpenURL(GitHubRepoBase + package.repoName);
+                Application.OpenURL(package.GetRepoURL());
             }
         }
 
