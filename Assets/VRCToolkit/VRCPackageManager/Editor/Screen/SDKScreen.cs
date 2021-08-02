@@ -25,8 +25,13 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             GUILayout.Space(20);
             
             if (!install) return;
-            var packageDownloader = new PackageDownloader(name, url, $"{name}.unitypackage");
-            packageDownloader.ExecuteDownload();
+            var fileDownloader = new FileDownloader(name, url, $"{name}.unitypackage");
+            var downloadedFilePath = fileDownloader.ExecuteDownload();
+            if (!string.IsNullOrEmpty(downloadedFilePath))
+            {
+                var packageImporter = new PackageImporter(name, downloadedFilePath);
+                packageImporter.ExecuteImport();
+            }
             VRCPackageManagerWindow.installedSDK = name;
             VRCPackageManagerWindow.selectedScreen = 1;
             VRCPackage.VRCPackageManager.LoadDataFromFile(VRCPackageManagerWindow.installedSDK, true);

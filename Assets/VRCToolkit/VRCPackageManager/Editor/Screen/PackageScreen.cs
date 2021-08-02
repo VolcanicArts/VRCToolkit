@@ -80,8 +80,13 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
                 if (latestVersion == null) return;
                 var latestReleaseFileName = string.Format(package.fileNameFormat, package.formattedName, latestVersion);
                 var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
-                var packageDownloader = new PackageDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
-                packageDownloader.ExecuteDownload();
+                var fileDownloader = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
+                var downloadedFilePath = fileDownloader.ExecuteDownload();
+                if (!string.IsNullOrEmpty(downloadedFilePath))
+                {
+                    var packageImporter = new PackageImporter(package.formattedName, downloadedFilePath);
+                    packageImporter.ExecuteImport();
+                }
             }
 
             if (openRepo)
