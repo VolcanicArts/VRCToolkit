@@ -7,8 +7,6 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
 {
     public class PackageScreen : VRCPackageManagerScreen
     {
-        private const string GitHubRepoLatestDownload = "/releases/latest/download/";
-        
         private int selectedPage;
         private Vector2 scrollPosition;
 
@@ -76,17 +74,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             
             if (install)
             {
-                var latestVersion = GitHubUtil.GetLatestVersion(package.repoName, package.formattedName);
-                if (latestVersion == null) return;
-                var latestReleaseFileName = string.Format(package.fileNameFormat, package.formattedName, latestVersion);
-                var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
-                var fileDownloader = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
-                var downloadedFilePath = fileDownloader.ExecuteDownload();
-                if (!string.IsNullOrEmpty(downloadedFilePath))
-                {
-                    var packageImporter = new PackageImporter(package.formattedName, downloadedFilePath);
-                    packageImporter.ExecuteImport();
-                }
+                VRCPackageInstallHandler.InstallVRCPackage(package.id);
             }
 
             if (openRepo)
