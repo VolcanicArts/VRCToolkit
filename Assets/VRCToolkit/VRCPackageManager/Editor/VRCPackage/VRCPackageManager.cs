@@ -49,7 +49,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
         public static string[] GetPageTitles()
         {
             if (pages == null) return new string[0];
-            var pageTitles = new List<string> {"VRC SDKs"};
+            var pageTitles = new List<string>();
             pageTitles.AddRange(pages.Select(page => page.title));
             return pageTitles.ToArray();
         }

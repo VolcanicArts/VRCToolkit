@@ -52,16 +52,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private static void DrawMainContent()
         {
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
-            if (selectedPage == 0)
-            {
-                DrawSDK(nameof(SDKURLs.SDK2), SDKURLs.SDK2);
-                DrawSDK(nameof(SDKURLs.SDK3Avatar), SDKURLs.SDK3Avatar);
-                DrawSDK(nameof(SDKURLs.SDK3World), SDKURLs.SDK3World);
-            }
-            else
-            {
-                DrawPage(selectedPage - 1);
-            }
+            DrawPage(selectedPage);
             GUILayout.EndScrollView();
         }
 
