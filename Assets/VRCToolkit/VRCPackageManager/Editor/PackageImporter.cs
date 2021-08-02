@@ -18,6 +18,14 @@ namespace VRCToolkit.VRCPackageManager.Editor
             AssignEvents();
             AssetDatabase.ImportPackage(filePath, false);
         }
+
+        private void FinishedImport()
+        {
+            UnAssignEvents();
+            FileUtil.DeleteFileOrDirectory(filePath);
+            FileUtil.DeleteFileOrDirectory($"{filePath}.meta");
+            AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
+        }
         
         private void AssignEvents()
         {
@@ -41,13 +49,13 @@ namespace VRCToolkit.VRCPackageManager.Editor
         private void OnImportPackageCompleted(string ignored)
         {
             Logger.Log($"{formattedName} has been successfully imported!");
-            UnAssignEvents();
+            FinishedImport();
         }
 
         private void OnImportPackageFailed(string ignored, string errorMessage)
         {
             Logger.LogError($"Failed to import {formattedName}: {errorMessage}");
-            UnAssignEvents();
+            FinishedImport();
         }
     }
 }
