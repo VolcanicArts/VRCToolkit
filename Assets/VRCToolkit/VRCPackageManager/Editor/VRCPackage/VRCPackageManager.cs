@@ -8,16 +8,15 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
     public class VRCPackageManager
     {
         public static VRCPackagePage[] pages;
-        public static readonly Dictionary<int, VRCPackage> packages = new Dictionary<int, VRCPackage>();
+        public static Dictionary<int, VRCPackage> packages;
 
-        public static void LoadDataFromFile()
+        public static void LoadDataFromFile(string installedSDK, bool reload)
         {
-            if (pages != null) return;
+            if (pages != null && !reload) return;
             var packageDataLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
             var packageDataJson = File.ReadAllText(packageDataLocation);
             var packageData = JsonUtility.FromJson<VRCPackageData>(packageDataJson);
             
-            const string installedSDK = "SDK3World";
             switch (installedSDK)
             {
                 case "SDK2":
@@ -37,6 +36,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
                 return;
             }
             
+            packages = new Dictionary<int, VRCPackage>();
             foreach (var page in pages)
             {
                 foreach (var package in page.packages)
