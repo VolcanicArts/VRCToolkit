@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Networking;
 using VRCToolkit.VRCPackageManager.Editor.GitHub;
-using VRCToolkit.VRCPackageManager.Editor.VRCPackage;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
@@ -14,18 +10,10 @@ namespace VRCToolkit.VRCPackageManager.Editor
         
         private static Vector2 scrollPosition;
         private static int selectedPage;
-        private static VRCPackageData packageData;
-        private static List<string> pageTitles;
-        
-        [MenuItem("VRCToolkit/VRCPackageManager")]
-        public static void ShowWindow()
-        {
-            GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
-        }
 
         private void OnGUI()
         {
-            if (packageData == null) LoadData();
+            VRCPackage.VRCPackageManager.LoadDataFromFile();
             DrawTitle();
             if (CheckIfPlaying()) return;
             DrawPageTitles();
@@ -33,11 +21,10 @@ namespace VRCToolkit.VRCPackageManager.Editor
             DrawFooter();
         }
 
-        private static void LoadData()
+        [MenuItem("VRCToolkit/VRCPackageManager")]
+        public static void ShowWindow()
         {
-            packageData = PackageManager.LoadDataFromFile();
-            pageTitles = new List<string> {"VRC SDKs"};
-            pageTitles.AddRange(packageData.pages.Select(page => page.title));
+            GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
         }
 
         private static void DrawTitle()
@@ -59,7 +46,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private static void DrawPageTitles()
         {
-            selectedPage = GUILayout.Toolbar(selectedPage, pageTitles.ToArray());
+            selectedPage = GUILayout.Toolbar(selectedPage, VRCPackage.VRCPackageManager.GetPageTitles());
         }
 
         private static void DrawMainContent()
@@ -119,7 +106,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
         private static void DrawPage(int pageID)
         {
-            var section = packageData.pages[pageID];
+            var section = VRCPackage.VRCPackageManager.pages[pageID];
             foreach (var package in section.packages)
             {
                 DrawVRCPackage(package);   
@@ -130,7 +117,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
         {
             DrawCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
-            if (!string.IsNullOrEmpty(package.requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package requires {package.requirements}"));
+            var requirements = package.GetRequirements();
+            if (!string.IsNullOrEmpty(requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package will also install {requirements}"));
             
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);

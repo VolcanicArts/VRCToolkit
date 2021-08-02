@@ -5,17 +5,32 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
     [Serializable]
     public class VRCPackage
     {
-        private readonly string GitHubRepoBase = "https://github.com/";
-        
+        [NonSerialized] private const string GitHubRepoBase = "https://github.com/";
+
+        public int id;
         public string formattedName;
         public string repoName;
         public string fileNameFormat;
         public string description;
-        public string requirements;
+        public int[] requirements;
 
         public string GetRepoURL()
         {
             return GitHubRepoBase + repoName;
+        }
+
+        public string GetRequirements()
+        {
+            var requirementsStr = "";
+
+            for (var i = 0; i < requirements.Length; i++)
+            {
+                var requirementID = requirements[i];
+                requirementsStr += $"{VRCPackageManager.packages[requirementID].formattedName}";
+                if (i + 1 != requirements.Length) requirementsStr += "/";
+            }
+
+            return requirementsStr;
         }
     }
 }
