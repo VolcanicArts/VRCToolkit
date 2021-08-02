@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using VRCToolkit.VRCPackageManager.Editor.Settings;
 
 namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
 {
@@ -10,14 +11,15 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
         public static VRCPackagePage[] pages;
         public static Dictionary<int, VRCPackage> packages;
 
-        public static void LoadDataFromFile(string installedSDK, bool reload)
+        public static void LoadDataFromFile(bool reload)
         {
             if (pages != null && !reload) return;
             var packageDataLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
             var packageDataJson = File.ReadAllText(packageDataLocation);
             var packageData = JsonUtility.FromJson<VRCPackageData>(packageDataJson);
-            
-            switch (installedSDK)
+
+            SettingsManager.LoadSettings(false);
+            switch (SettingsManager.settings.installedSDK)
             {
                 case "SDK2":
                     pages = packageData.SDK2;

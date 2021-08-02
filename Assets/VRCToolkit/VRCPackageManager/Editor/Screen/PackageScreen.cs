@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 using VRCToolkit.VRCPackageManager.Editor.GitHub;
+using VRCToolkit.VRCPackageManager.Editor.Settings;
 using VRCToolkit.VRCPackageManager.Editor.VRCPackage;
 
 namespace VRCToolkit.VRCPackageManager.Editor.Screen
@@ -15,7 +16,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             base.OnGUI();
             if (CheckIfPlaying()) return;
 
-            VRCPackage.VRCPackageManager.LoadDataFromFile(VRCPackageManagerWindow.installedSDK, false);
+            VRCPackage.VRCPackageManager.LoadDataFromFile(false);
             DrawPageTitles();
             DrawMainContent();
             DrawFooter();
@@ -44,7 +45,8 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             if (chooseNewSDK)
             {
                 VRCPackageManagerWindow.selectedScreen = 0;
-                VRCPackageManagerWindow.installedSDK = null;
+                SettingsManager.settings.installedSDK = null;
+                SettingsManager.SaveSettings();
             }
         }
 
