@@ -7,5 +7,6 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
     {
         public string installedSDK;
         public PackageVersion[] installedPackages;
+        public bool updateSDKOnStart;
     }
 }

@@ -17,7 +17,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
             installedVersions = new Dictionary<int, string>();
             if (!File.Exists(settingsFileLocation))
             {
-                settings = new Settings();
+                settings = new Settings {updateSDKOnStart = true};
                 return true;
             }
 

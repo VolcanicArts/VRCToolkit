@@ -44,6 +44,16 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             return pressed;
         }
 
+        protected static bool DrawCenteredToggle(string label, bool value)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            var newValue = EditorGUILayout.Toggle(label, value);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+            return newValue;
+        }
+
         protected static bool CheckIfPlaying()
         {
             if (!EditorApplication.isPlaying) return false;

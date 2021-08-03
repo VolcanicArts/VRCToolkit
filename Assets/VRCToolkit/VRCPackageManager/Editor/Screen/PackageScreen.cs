@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using VRCToolkit.VRCPackageManager.Editor.GitHub;
 using VRCToolkit.VRCPackageManager.Editor.Settings;
@@ -37,15 +38,40 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
         private void DrawFooter()
         {
             DrawCenteredTitle("Settings");
-            var clearCachedData = DrawCenteredButton("Clear Cached Data");
-            GUILayout.Space(20);
-            var chooseNewSDK = DrawCenteredButton("Choose New SDK");
+            DrawCenteredTitle("Updates");
+            var updateSDKOnStart = DrawCenteredToggle("Update SDK on start:", SettingsManager.settings.updateSDKOnStart);
+            var updateSDK = DrawCenteredButton("Update SDK");
+            var updatePackages = DrawCenteredButton("Update all installed packages");
+            DrawCenteredTitle("Data Management");
+            var clearDownloadCache = DrawCenteredButton("Clear download cache");
+            var chooseNewSDK = DrawCenteredButton("Choose different SDK");
+            GUILayout.Space(10);
 
-            if (clearCachedData) AssetDatabase.DeleteAsset("Assets/VRCToolkit/VRCPackageManager/Downloads");
+            if (updateSDKOnStart != SettingsManager.settings.updateSDKOnStart)
+            {
+                SettingsManager.settings.updateSDKOnStart = updateSDKOnStart;
+                SettingsManager.SaveSettings();
+            }
+
+            if (updateSDK)
+            {
+                var installedSDK = SettingsManager.settings.installedSDK;
+                SDKInstallHandler.InstallSDK(installedSDK, SDKURLs.GetURL(installedSDK));
+            }
+
+            if (updatePackages)
+            {
+                var installedPackages = SettingsManager.installedVersions.Keys.ToList();
+                installedPackages = installedPackages.OrderByDescending(x => x).ToList();
+                foreach (var id in installedPackages) VRCPackageInstallHandler.InstallVRCPackage(id);
+            }
+
+            if (clearDownloadCache) AssetDatabase.DeleteAsset("Assets/VRCToolkit/VRCPackageManager/Downloads");
             if (chooseNewSDK)
             {
                 VRCPackageManagerWindow.selectedScreen = 0;
                 SettingsManager.settings.installedSDK = null;
+                SettingsManager.installedVersions.Clear();
                 SettingsManager.SaveSettings();
             }
         }

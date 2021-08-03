@@ -35,6 +35,11 @@ namespace VRCToolkit.VRCPackageManager.Editor
             SettingsManager.LoadSettings(true);
             if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK)) selectedScreen = 1;
             GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
+            if (SettingsManager.settings.updateSDKOnStart)
+            {
+                var installedSDK = SettingsManager.settings.installedSDK;
+                SDKInstallHandler.InstallSDK(installedSDK, SDKURLs.GetURL(installedSDK));
+            }
         }
     }
 }
