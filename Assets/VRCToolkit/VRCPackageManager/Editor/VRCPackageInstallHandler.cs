@@ -41,7 +41,16 @@ namespace VRCToolkit.VRCPackageManager.Editor
             var fileDownloader = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
             var downloadedFilePath = fileDownloader.ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
-            SettingsManager.installedVersions.Add(package.id, latestVersion);
+
+            if (SettingsManager.installedVersions.TryGetValue(package.id, out _))
+            {
+                SettingsManager.installedVersions[package.id] = latestVersion;
+            }
+            else
+            {
+                SettingsManager.installedVersions.Add(package.id, latestVersion);
+            }
+
             SettingsManager.SaveSettings();
             var packageImporter = new PackageImporter(package.formattedName, downloadedFilePath);
             packageImporter.ExecuteImport();
