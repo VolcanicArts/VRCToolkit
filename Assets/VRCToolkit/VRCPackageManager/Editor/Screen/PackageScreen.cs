@@ -9,6 +9,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
 {
     public class PackageScreen : VRCPackageManagerScreen
     {
+        private int selectedUpperPage;
         private int selectedPage;
         private Vector2 scrollPosition;
 
@@ -17,10 +18,43 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             base.OnGUI();
             if (CheckIfPlaying()) return;
 
+            selectedUpperPage = GUILayout.Toolbar(selectedUpperPage, new[] {"Install Packages", "View Installed Packages"});
+            switch (selectedUpperPage)
+            {
+                case 0:
+                    DrawInstallPackagesPage();
+                    break;
+                case 1:
+                    DrawViewInstalledPackagedPage();
+                    break;
+            }
+        }
+
+        private void DrawInstallPackagesPage()
+        {
             VRCPackage.VRCPackageManager.LoadDataFromFile(false);
             DrawPageTitles();
             DrawMainContent();
             DrawFooter();
+        }
+
+        private void DrawViewInstalledPackagedPage()
+        {
+            DrawCenteredTitle("Installed Packages");
+            DrawCenteredText("If you've deleted a package and want VRCPackageManager to not try to update said package as it's not installed, click 'uninstall' here");
+
+            var installedVersionsCache = SettingsManager.installedVersions.Keys.ToList();
+            foreach (var package in installedVersionsCache.Select(packageID => VRCPackage.VRCPackageManager.packages[packageID]))
+            {
+                DrawCenteredTitle($"{package.formattedName}: {SettingsManager.installedVersions[package.id]}");
+                GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
+                var uninstall = DrawCenteredButton("Uninstall");
+                if (uninstall)
+                {
+                    SettingsManager.installedVersions.Remove(package.id);
+                    SettingsManager.SaveSettings();
+                }
+            }
         }
         
         private void DrawPageTitles()
