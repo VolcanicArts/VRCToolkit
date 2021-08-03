@@ -6,7 +6,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
     {
         private readonly string formattedName;
         private readonly string filePath;
-        
+
         public PackageImporter(string formattedName, string filePath)
         {
             this.formattedName = formattedName;
@@ -26,7 +26,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             FileUtil.DeleteFileOrDirectory($"{filePath}.meta");
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
         }
-        
+
         private void AssignEvents()
         {
             AssetDatabase.importPackageStarted += OnImportPackageStarted;
@@ -40,7 +40,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             AssetDatabase.importPackageCompleted -= OnImportPackageCompleted;
             AssetDatabase.importPackageFailed -= OnImportPackageFailed;
         }
-        
+
         private void OnImportPackageStarted(string ignored)
         {
             Logger.Log($"Attempting to import {formattedName}");

@@ -8,7 +8,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.GitHub
     {
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
-        
+
         public static string GetLatestVersion(string repoName, string formattedName)
         {
             var url = GitHubAPIBase + repoName + GitHubAPILatestRelease;
@@ -20,6 +20,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.GitHub
             {
                 EditorUtility.DisplayProgressBar($"[VRCPackageManager] Getting latest version of {formattedName}", "", uwr.downloadProgress);
             }
+
             EditorUtility.ClearProgressBar();
 
             if (uwr.error != null)

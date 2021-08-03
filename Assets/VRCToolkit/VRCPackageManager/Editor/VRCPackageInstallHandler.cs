@@ -4,7 +4,7 @@ using VRCToolkit.VRCPackageManager.Editor.Settings;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
-    public class VRCPackageInstallHandler
+    public static class VRCPackageInstallHandler
     {
         private const string GitHubRepoLatestDownload = "/releases/latest/download/";
 

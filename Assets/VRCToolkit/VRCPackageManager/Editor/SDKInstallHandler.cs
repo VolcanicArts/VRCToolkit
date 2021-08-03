@@ -20,7 +20,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             SettingsManager.LoadSettings(true);
             if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK)) VRCPackageManagerWindow.selectedScreen = 1;
         }
-        
+
         private static void AssignEvents()
         {
             AssetDatabase.importPackageFailed += OnImportPackageFailed;

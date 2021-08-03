@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace VRCToolkit.VRCPackageManager.Editor.Settings
 {
-    public class SettingsManager
+    public static class SettingsManager
     {
         private static readonly string settingsFileLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/Settings.json";
 
@@ -43,6 +43,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
                 settings.installedPackages[index] = new PackageVersion {packageID = entry.Key, installedVersion = entry.Value};
                 index++;
             }
+
             File.WriteAllText(settingsFileLocation, JsonUtility.ToJson(settings, true));
         }
     }

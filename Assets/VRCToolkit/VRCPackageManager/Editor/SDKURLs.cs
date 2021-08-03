@@ -1,6 +1,6 @@
 ﻿namespace VRCToolkit.VRCPackageManager.Editor
 {
-    public class SDKURLs
+    public static class SDKURLs
     {
         private const string VrcBase = "https://vrchat.com/download/";
         public static string SDK2 => VrcBase + "sdk2";

@@ -2,11 +2,10 @@
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
-    public class Logger
+    public static class Logger
     {
-        
         private const string LogPrefix = "[VRCToolkit/VRCPackageManager]";
-        
+
         public static void Log(string message)
         {
             Debug.Log($"{LogPrefix} {message}");

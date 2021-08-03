@@ -1,9 +1,7 @@
 ﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using VRCToolkit.VRCPackageManager.Editor.GitHub;
 using VRCToolkit.VRCPackageManager.Editor.Settings;
-using VRCToolkit.VRCPackageManager.Editor.VRCPackage;
 
 namespace VRCToolkit.VRCPackageManager.Editor.Screen
 {
@@ -41,7 +39,8 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
         private void DrawViewInstalledPackagedPage()
         {
             DrawCenteredTitle("Installed Packages");
-            DrawCenteredText("If you've deleted a package and want VRCPackageManager to not try to update said package as it's not installed, click 'uninstall' here");
+            DrawCenteredText(
+                "If you've deleted a package and want VRCPackageManager to not try to update said package as it's not installed, click 'uninstall' here");
 
             var installedVersionsCache = SettingsManager.installedVersions.Keys.ToList();
             foreach (var package in installedVersionsCache.Select(packageID => VRCPackage.VRCPackageManager.packages[packageID]))
@@ -56,7 +55,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
                 }
             }
         }
-        
+
         private void DrawPageTitles()
         {
             selectedPage = GUILayout.Toolbar(selectedPage, VRCPackage.VRCPackageManager.GetPageTitles());
@@ -115,17 +114,17 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             var section = VRCPackage.VRCPackageManager.pages[pageID];
             foreach (var package in section.packages)
             {
-                DrawVRCPackage(package);   
+                DrawVRCPackage(package);
             }
         }
-        
+
         private static void DrawVRCPackage(VRCPackage.VRCPackage package)
         {
             DrawCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
             var requirements = package.GetRequirements();
             if (!string.IsNullOrEmpty(requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package will also install {requirements}"));
-            
+
             GUILayout.BeginHorizontal();
             GUILayout.Space(100);
             var install = GUILayout.Button("Install Package", EditorStyles.miniButton);
@@ -133,7 +132,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             GUILayout.Space(100);
             GUILayout.EndHorizontal();
             GUILayout.Space(20);
-            
+
             if (install)
             {
                 VRCPackageInstallHandler.InstallVRCPackage(package.id);
@@ -144,6 +143,5 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
                 Application.OpenURL(package.GetRepoURL());
             }
         }
-
     }
 }

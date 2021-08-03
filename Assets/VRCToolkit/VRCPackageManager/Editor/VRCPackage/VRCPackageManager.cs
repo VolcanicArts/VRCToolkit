@@ -6,7 +6,7 @@ using VRCToolkit.VRCPackageManager.Editor.Settings;
 
 namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
 {
-    public class VRCPackageManager
+    public static class VRCPackageManager
     {
         public static VRCPackagePage[] pages;
         public static Dictionary<int, VRCPackage> packages;
@@ -37,7 +37,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
                 Debug.Log("No valid SDK found");
                 return;
             }
-            
+
             packages = new Dictionary<int, VRCPackage>();
             foreach (var page in pages)
             {
@@ -47,7 +47,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
                 }
             }
         }
-        
+
         public static string[] GetPageTitles()
         {
             if (pages == null) return new string[0];

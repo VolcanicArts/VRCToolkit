@@ -7,7 +7,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 {
     public class VRCPackageManagerWindow : EditorWindow
     {
-        public static int selectedScreen = 0;
+        public static int selectedScreen;
 
         private static readonly VRCPackageManagerScreen[] _screens = {new SDKScreen(), new PackageScreen()};
 
@@ -26,6 +26,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
                     }
                 }
             }
+
             _screens[selectedScreen].OnGUI();
         }
 
