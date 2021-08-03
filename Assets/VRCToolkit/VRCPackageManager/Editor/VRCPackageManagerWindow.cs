@@ -38,7 +38,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             if (SettingsManager.settings.updateSDKOnStart)
             {
                 var installedSDK = SettingsManager.settings.installedSDK;
-                SDKInstallHandler.InstallSDK(installedSDK, SDKURLs.GetURL(installedSDK));
+                if (!string.IsNullOrEmpty(installedSDK)) SDKInstallHandler.InstallSDK(installedSDK, SDKURLs.GetURL(installedSDK));
             }
         }
     }
