@@ -18,7 +18,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
                 var loadedSettings = SettingsManager.LoadSettings(false);
                 if (loadedSettings)
                 {
-                    Debug.Log($"Installed SDK is {SettingsManager.settings.installedSDK}");
+                    Logger.Log($"Installed SDK is {SettingsManager.settings.installedSDK}");
                     if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK))
                     {
                         selectedScreen = 1;
