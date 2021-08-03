@@ -17,6 +17,8 @@ namespace VRCToolkit.VRCPackageManager.Editor
             var packageImporter = new PackageImporter(name, downloadedFilePath);
             packageImporter.ExecuteImport();
             UnAssignEvents();
+            SettingsManager.LoadSettings(true);
+            if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK)) VRCPackageManagerWindow.selectedScreen = 1;
         }
         
         private static void AssignEvents()
