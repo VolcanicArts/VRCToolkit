@@ -6,5 +6,6 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
     public class Settings
     {
         public string installedSDK;
+        public PackageVersion[] installedPackages;
     }
 }

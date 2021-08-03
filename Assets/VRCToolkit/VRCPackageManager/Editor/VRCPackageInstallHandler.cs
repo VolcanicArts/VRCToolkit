@@ -1,4 +1,6 @@
-﻿using VRCToolkit.VRCPackageManager.Editor.GitHub;
+﻿using System.Collections.Generic;
+using VRCToolkit.VRCPackageManager.Editor.GitHub;
+using VRCToolkit.VRCPackageManager.Editor.Settings;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
@@ -21,11 +23,26 @@ namespace VRCToolkit.VRCPackageManager.Editor
         {
             var latestVersion = GitHubUtil.GetLatestVersion(package.repoName, package.formattedName);
             if (latestVersion == null) return;
+            try
+            {
+                var installedVersion = SettingsManager.installedVersions[package.id];
+                if (installedVersion.Equals(latestVersion))
+                {
+                    Logger.Log($"Latest version of {package.formattedName} is already installed!");
+                    return;
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+            }
+
             var latestReleaseFileName = string.Format(package.fileNameFormat, package.formattedName, latestVersion);
             var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
             var fileDownloader = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
             var downloadedFilePath = fileDownloader.ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
+            SettingsManager.installedVersions.Add(package.id, latestVersion);
+            SettingsManager.SaveSettings();
             var packageImporter = new PackageImporter(package.formattedName, downloadedFilePath);
             packageImporter.ExecuteImport();
         }
