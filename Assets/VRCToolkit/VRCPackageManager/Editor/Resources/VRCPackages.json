@@ -75,6 +75,14 @@
           "fileNameFormat": "{0}{1}.unitypackage",
           "description": "VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more accessible and lower the entry-level to make a good performing world",
           "requirements": []
+        },
+        {
+          "id": 8,
+          "formattedName": "PoiyomiToonShader",
+          "repoName": "poiyomi/PoiyomiToonShader",
+          "fileNameFormat": "PoiyomiToon{1}.unitypackage",
+          "description": "A feature rich toon shader for unity and VR Chat",
+          "requirements": []
         }
       ]
     },
@@ -118,6 +126,19 @@
           "repoName": "VolcanicArts/VRCToolkit",
           "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
           "description": "A collection of commonly used tools and prefabs, as well as the official VRC SDKs",
+          "requirements": []
+        }
+      ]
+    },
+    {
+      "title": "Tools",
+      "packages": [
+        {
+          "id": 8,
+          "formattedName": "PoiyomiToonShader",
+          "repoName": "poiyomi/PoiyomiToonShader",
+          "fileNameFormat": "PoiyomiToon{1}.unitypackage",
+          "description": "A feature rich toon shader for unity and VR Chat",
           "requirements": []
         }
       ]
