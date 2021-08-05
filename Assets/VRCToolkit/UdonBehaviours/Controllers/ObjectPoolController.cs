@@ -1,40 +1,49 @@
-﻿using UdonSharp;
-using UnityEngine;
+﻿using UnityEngine;
+#if VRC_SDK_VRCSDK3
 using VRC.SDK3.Components;
 using VRC.SDKBase;
+#endif
+#if UDON
+using UdonSharp;
+#endif
 
-[RequireComponent(typeof(VRCObjectPool))]
-[UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
-public class ObjectPoolController : UdonSharpBehaviour
+namespace VRCToolkit.UdonBehaviours.Controllers
 {
-    private VRCObjectPool _objectPool;
-
-    public void Start()
+    #if UDON
+    [RequireComponent(typeof(VRCObjectPool))]
+    [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
+    public class ObjectPoolController : UdonSharpBehaviour
     {
-        _objectPool = (VRCObjectPool) gameObject.GetComponent(typeof(VRCObjectPool));
-        SpawnAllObjectsInPool();
-    }
+        private VRCObjectPool _objectPool;
 
-    public void Return()
-    {
-        if (!Networking.LocalPlayer.isMaster) return;
-        
-        foreach (GameObject obj in _objectPool.Pool)
+        public void Start()
         {
-            var objectSync = (VRCObjectSync) obj.GetComponent(typeof(VRCObjectSync));
-            objectSync.FlagDiscontinuity();
-            _objectPool.Return(obj);
+            _objectPool = (VRCObjectPool) gameObject.GetComponent(typeof(VRCObjectPool));
+            SpawnAllObjectsInPool();
         }
 
-        SpawnAllObjectsInPool();
-    }
-
-    private void SpawnAllObjectsInPool()
-    {
-        GameObject obj;
-        do
+        public void Return()
         {
-            obj = _objectPool.TryToSpawn();
-        } while (obj != null);
+            if (!Networking.LocalPlayer.isMaster) return;
+        
+            foreach (var obj in _objectPool.Pool)
+            {
+                var objectSync = (VRCObjectSync) obj.GetComponent(typeof(VRCObjectSync));
+                objectSync.FlagDiscontinuity();
+                _objectPool.Return(obj);
+            }
+
+            SpawnAllObjectsInPool();
+        }
+
+        private void SpawnAllObjectsInPool()
+        {
+            GameObject obj;
+            do
+            {
+                obj = _objectPool.TryToSpawn();
+            } while (obj != null);
+        }
     }
+    #endif
 }

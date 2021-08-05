@@ -1,9 +1,14 @@
-﻿using UdonSharp;
-using UnityEngine;
+﻿using UnityEngine;
+#if VRC_SDK_VRCSDK3
 using VRC.SDKBase;
+#endif
+#if UDON
+using UdonSharp;
+#endif
 
 namespace VRCToolkit.UdonBehaviours.Controllers
 {
+    #if UDON
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class IntegerAnimatorController : UdonSharpBehaviour
     {
@@ -95,4 +100,5 @@ namespace VRCToolkit.UdonBehaviours.Controllers
             if (syncOverNetwork && Networking.IsOwner(Networking.LocalPlayer, gameObject)) RequestSerialization();
         }
     }
+    #endif
 }

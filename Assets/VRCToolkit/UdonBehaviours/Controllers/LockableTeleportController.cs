@@ -1,9 +1,14 @@
-﻿using UdonSharp;
-using UnityEngine;
+﻿using UnityEngine;
+#if VRC_SDK_VRCSDK3
 using VRC.SDKBase;
+#endif
+#if UDON
+using UdonSharp;
+#endif
 
 namespace VRCToolkit.UdonBehaviours.Controllers
 {
+    #if UDON
     [UdonBehaviourSyncMode(BehaviourSyncMode.Manual)]
     public class LockableTeleportController : UdonSharpBehaviour
     {
@@ -78,6 +83,6 @@ namespace VRCToolkit.UdonBehaviours.Controllers
         {
             if (!_locked) Networking.LocalPlayer.TeleportTo(teleportLocation.position, teleportLocation.rotation);
         }
-        
     }
+    #endif
 }

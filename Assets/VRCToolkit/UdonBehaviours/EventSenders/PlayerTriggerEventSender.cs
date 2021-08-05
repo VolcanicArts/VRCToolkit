@@ -1,26 +1,29 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
-using VRC.Udon;
+﻿using UnityEngine;
+#if VRC_SDK_VRCSDK3
 using VRC.SDKBase;
+#endif
+#if UDON
+using VRC.Udon;
 using UdonSharp;
+#endif
 
 namespace VRCToolkit.UdonBehaviours.EventSenders
 {
+    #if UDON
     [UdonBehaviourSyncMode(BehaviourSyncMode.NoVariableSync)]
     public class PlayerTriggerEventSender : UdonSharpBehaviour
     {
-        [Header("Receiver")] [Tooltip("The receiver of the events")] [CanBeNull]
+        [Header("Receiver")] [Tooltip("The receiver of the events")]
         public UdonBehaviour eventReceiver;
 
         [Header("Available events")]
         [Tooltip("The event you want to send to the eventReceiver on player trigger enter")]
-        [CanBeNull]
         public string onPlayerTriggerEnterEventName;
 
-        [Tooltip("The event you want to send to the eventReceiver on player trigger exit")] [CanBeNull]
+        [Tooltip("The event you want to send to the eventReceiver on player trigger exit")]
         public string onPlayerTriggerExitEventName;
 
-        [Tooltip("The event you want to send to the eventReceiver on player trigger stay")] [CanBeNull]
+        [Tooltip("The event you want to send to the eventReceiver on player trigger stay")]
         public string onPlayerTriggerStayEventName;
 
         [Header("Settings")]
@@ -53,4 +56,5 @@ namespace VRCToolkit.UdonBehaviours.EventSenders
             eventReceiver.SendCustomEvent(eventName);
         }
     }
+    #endif
 }

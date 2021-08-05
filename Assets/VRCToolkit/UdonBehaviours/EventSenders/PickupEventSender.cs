@@ -1,26 +1,28 @@
-﻿using JetBrains.Annotations;
-using UnityEngine;
+﻿using UnityEngine;
+#if UDON
 using VRC.Udon;
 using UdonSharp;
+#endif
 
 namespace VRCToolkit.UdonBehaviours.EventSenders
 {
+    #if UDON
     [UdonBehaviourSyncMode(BehaviourSyncMode.NoVariableSync)]
     public class PickupEventSender : UdonSharpBehaviour
     {
-        [Header("Receiver")] [Tooltip("The receiver of the events")] [CanBeNull]
+        [Header("Receiver")] [Tooltip("The receiver of the events")]
         public UdonBehaviour eventReceiver;
 
-        [Header("Available events")] [Tooltip("The event you want to send to the eventReceiver on pickup")] [CanBeNull]
+        [Header("Available events")] [Tooltip("The event you want to send to the eventReceiver on pickup")]
         public string onPickupEventName;
 
-        [Tooltip("The event you want to send to the eventReceiver on pickup use down")] [CanBeNull]
+        [Tooltip("The event you want to send to the eventReceiver on pickup use down")]
         public string onPickupUseDownEventName;
 
-        [Tooltip("The event you want to send to the eventReceiver on pickup use up")] [CanBeNull]
+        [Tooltip("The event you want to send to the eventReceiver on pickup use up")]
         public string onPickupUseUpEventName;
 
-        [Tooltip("The event you want to send to the eventReceiver on drop")] [CanBeNull]
+        [Tooltip("The event you want to send to the eventReceiver on drop")]
         public string onDropEventName;
 
         public override void OnPickup()
@@ -50,4 +52,5 @@ namespace VRCToolkit.UdonBehaviours.EventSenders
             eventReceiver.SendCustomEvent(eventName);
         }
     }
+    #endif
 }

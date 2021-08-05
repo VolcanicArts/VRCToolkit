@@ -20,3 +20,5 @@
 /Assets/VRCSDK
 *.meta
 *.user
+
+Assets/Resources/BillingMode.json
