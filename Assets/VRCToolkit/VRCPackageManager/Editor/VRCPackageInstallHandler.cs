@@ -38,8 +38,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
 
             var latestReleaseFileName = string.Format(package.fileNameFormat, package.formattedName, latestVersion);
             var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
-            var fileDownloader = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName);
-            var downloadedFilePath = fileDownloader.ExecuteDownload();
+            var downloadedFilePath = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName).ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
 
             if (SettingsManager.installedVersions.TryGetValue(package.id, out _))
@@ -52,8 +51,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
             }
 
             SettingsManager.SaveSettings();
-            var packageImporter = new PackageImporter(package.formattedName, downloadedFilePath);
-            packageImporter.ExecuteImport();
+            new PackageImporter(package.formattedName, downloadedFilePath).ExecuteImport();
         }
     }
 }

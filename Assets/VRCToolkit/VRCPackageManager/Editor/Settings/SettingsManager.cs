@@ -14,10 +14,12 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
         public static bool LoadSettings(bool reload)
         {
             if (settings != null && !reload) return false;
+            
             installedVersions = new Dictionary<int, string>();
             if (!File.Exists(settingsFileLocation))
             {
-                settings = new Settings {updateSDKOnStart = true};
+                GenerateDefaultSettings();
+                SaveSettings();
                 return true;
             }
 
@@ -45,6 +47,17 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
             }
 
             File.WriteAllText(settingsFileLocation, JsonUtility.ToJson(settings, true));
+        }
+
+        public static void GenerateDefaultSettings()
+        {
+            settings = new Settings();
+            installedVersions.Clear();
+        }
+
+        public static void SetAttributes()
+        {
+            if (!string.IsNullOrEmpty(settings.installedSDK)) VRCPackageManagerWindow.selectedScreen = 1;
         }
     }
 }

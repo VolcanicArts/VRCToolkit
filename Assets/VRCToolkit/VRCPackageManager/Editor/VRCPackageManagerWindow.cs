@@ -34,7 +34,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         public static void ShowWindow()
         {
             SettingsManager.LoadSettings(true);
-            if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK)) selectedScreen = 1;
+            SettingsManager.SetAttributes();
             GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
             if (SettingsManager.settings.updateSDKOnStart)
             {

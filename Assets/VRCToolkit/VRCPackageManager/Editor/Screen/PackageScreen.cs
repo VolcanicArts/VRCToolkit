@@ -102,10 +102,9 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             if (clearDownloadCache) AssetDatabase.DeleteAsset("Assets/VRCToolkit/VRCPackageManager/Downloads");
             if (chooseNewSDK)
             {
-                VRCPackageManagerWindow.selectedScreen = 0;
-                SettingsManager.settings.installedSDK = null;
-                SettingsManager.installedVersions.Clear();
+                SettingsManager.GenerateDefaultSettings();
                 SettingsManager.SaveSettings();
+                SettingsManager.SetAttributes();
             }
         }
 

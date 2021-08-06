@@ -3,22 +3,20 @@ using VRCToolkit.VRCPackageManager.Editor.Settings;
 
 namespace VRCToolkit.VRCPackageManager.Editor
 {
-    public class SDKInstallHandler
+    public static class SDKInstallHandler
     {
         public static void InstallSDK(string name, string url)
         {
-            var fileDownloader = new FileDownloader(name, url, $"{name}.unitypackage");
-            var downloadedFilePath = fileDownloader.ExecuteDownload();
-
+            var downloadedFilePath = new FileDownloader(name, url, $"{name}.unitypackage").ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
+            
             SettingsManager.settings.installedSDK = name;
             SettingsManager.SaveSettings();
             AssignEvents();
-            var packageImporter = new PackageImporter(name, downloadedFilePath);
-            packageImporter.ExecuteImport();
+            new PackageImporter(name, downloadedFilePath).ExecuteImport();
             UnAssignEvents();
             SettingsManager.LoadSettings(true);
-            if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK)) VRCPackageManagerWindow.selectedScreen = 1;
+            SettingsManager.SetAttributes();
         }
 
         private static void AssignEvents()
@@ -33,15 +31,15 @@ namespace VRCToolkit.VRCPackageManager.Editor
             AssetDatabase.importPackageCancelled -= OnImportPackageCancelled;
         }
 
-        private static void OnImportPackageCancelled(string packagename)
+        private static void OnImportPackageCancelled(string packageName)
         {
-            SettingsManager.settings.installedSDK = null;
+            SettingsManager.GenerateDefaultSettings();
             SettingsManager.SaveSettings();
         }
 
-        private static void OnImportPackageFailed(string packagename, string errormessage)
+        private static void OnImportPackageFailed(string packageName, string err)
         {
-            SettingsManager.settings.installedSDK = null;
+            SettingsManager.GenerateDefaultSettings();
             SettingsManager.SaveSettings();
         }
     }
