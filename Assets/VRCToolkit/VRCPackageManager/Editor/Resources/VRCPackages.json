@@ -14,6 +14,19 @@
       ]
     },
     {
+      "title": "Tools",
+      "packages": [
+        {
+          "id": 1,
+          "formattedName": "CyanEmu",
+          "repoName": "CyanLaser/CyanEmu",
+          "fileNameFormat": "{0}.{1}.unitypackage",
+          "description": "A VRChat client emulator in Unity for SDK2 and SDK3",
+          "requirements": []
+        }
+      ]
+    },
+    {
       "title": "Prefabs",
       "packages": [
         {
