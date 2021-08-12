@@ -12,17 +12,25 @@ namespace VRCToolkit.VRCPackageManager
 
         private static void DrawTitle()
         {
+            GUILayout.Space(10);
             DrawCenteredTitle("VRCPackageManager");
             DrawCenteredText(
                 "Welcome to the VRCPackageManager. Here you'll find a collection of useful tools, prefabs, the official SDKs for VRChat, and other packages in VRCToolkit");
+            GUILayout.Space(10);
         }
 
         protected static void DrawCenteredText(string text)
         {
             GUILayout.BeginHorizontal();
-            GUILayout.Space(40);
-            GUILayout.Label(text, EditorStyles.wordWrappedLabel);
-            GUILayout.Space(40);
+            GUILayout.Space(10);
+            GUILayout.Label(text, new GUIStyle
+            {
+                alignment = TextAnchor.MiddleCenter,
+                wordWrap = true,
+                fontStyle = FontStyle.Normal,
+                normal = new GUIStyleState {textColor = Color.white}
+            });
+            GUILayout.Space(10);
             GUILayout.EndHorizontal();
         }
 
@@ -30,7 +38,13 @@ namespace VRCToolkit.VRCPackageManager
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            GUILayout.Label(title, EditorStyles.boldLabel);
+            GUILayout.Label(title, new GUIStyle
+            {
+                alignment = TextAnchor.MiddleCenter,
+                wordWrap = true,
+                fontStyle = FontStyle.Bold,
+                normal = new GUIStyleState {textColor = Color.white}
+            });
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
         }

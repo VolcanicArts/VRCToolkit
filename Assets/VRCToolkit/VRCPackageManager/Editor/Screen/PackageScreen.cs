@@ -37,34 +37,44 @@ namespace VRCToolkit.VRCPackageManager
 
         private void DrawViewInstalledPackagedPage()
         {
+            GUILayout.Space(10);
             DrawCenteredTitle("Installed Packages");
             DrawCenteredText(
                 "If you've deleted a package and want VRCPackageManager to not try to update said package as it's not installed, click 'uninstall' here");
+            GUILayout.Space(10);
 
             var installedVersionsCache = SettingsManager.installedVersions.Keys.ToList();
             foreach (var package in installedVersionsCache.Select(packageID => PackageManager.packages[packageID]))
             {
                 DrawCenteredTitle($"{package.formattedName}: {SettingsManager.installedVersions[package.id]}");
-                GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
+                DrawCenteredText(package.description);
                 var uninstall = DrawCenteredButton("Uninstall");
                 if (uninstall)
                 {
                     SettingsManager.installedVersions.Remove(package.id);
                     SettingsManager.SaveSettings();
                 }
+                GUILayout.Space(10);
             }
         }
 
         private void DrawPageTitles()
         {
             selectedPage = GUILayout.Toolbar(selectedPage, PackageManager.GetPageTitles());
+            GUILayout.Space(10);
         }
 
         private void DrawMainContent()
         {
+            GUILayout.BeginHorizontal();
+            GUILayout.Space(20);
+            GUILayout.BeginVertical();
             scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUIStyle.none, GUIStyle.none);
             DrawPage(selectedPage);
             GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+            GUILayout.Space(20);
+            GUILayout.EndHorizontal();
         }
 
         private void DrawFooter()
@@ -116,7 +126,7 @@ namespace VRCToolkit.VRCPackageManager
         private static void DrawVRCPackage(Package package)
         {
             DrawCenteredTitle(package.formattedName);
-            GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
+            DrawCenteredText(package.description);
             var requirements = package.GetRequirements();
             if (!string.IsNullOrEmpty(requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package will also install {requirements}"));
 
