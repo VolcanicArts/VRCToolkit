@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRCToolkit.VRCPackageManager.Editor
+namespace VRCToolkit.VRCPackageManager
 {
     public static class Logger
     {

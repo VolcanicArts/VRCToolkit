@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace VRCToolkit.VRCPackageManager.Editor.GitHub
+namespace VRCToolkit.VRCPackageManager
 {
     public static class GitHubUtil
     {
@@ -13,13 +13,11 @@ namespace VRCToolkit.VRCPackageManager.Editor.GitHub
         {
             var url = GitHubAPIBase + repoName + GitHubAPILatestRelease;
             Logger.Log($"Requesting for latest version of {formattedName} using URL: {url}");
-            var uwr = new UnityWebRequest(url) {downloadHandler = new DownloadHandlerBuffer()};
+            var uwr = new UnityWebRequest(url) { downloadHandler = new DownloadHandlerBuffer() };
             uwr.SendWebRequest();
 
             while (!uwr.isDone)
-            {
                 EditorUtility.DisplayProgressBar($"[VRCPackageManager] Getting latest version of {formattedName}", "", uwr.downloadProgress);
-            }
 
             EditorUtility.ClearProgressBar();
 

@@ -1,22 +1,21 @@
 ﻿using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using VRCToolkit.VRCPackageManager.Editor.Settings;
 
-namespace VRCToolkit.VRCPackageManager.Editor.Screen
+namespace VRCToolkit.VRCPackageManager
 {
     public class PackageScreen : VRCPackageManagerScreen
     {
-        private int selectedUpperPage;
-        private int selectedPage;
         private Vector2 scrollPosition;
+        private int selectedPage;
+        private int selectedUpperPage;
 
         public override void OnGUI()
         {
             base.OnGUI();
             if (CheckIfPlaying()) return;
 
-            selectedUpperPage = GUILayout.Toolbar(selectedUpperPage, new[] {"Install Packages", "View Installed Packages"});
+            selectedUpperPage = GUILayout.Toolbar(selectedUpperPage, new[] { "Install Packages", "View Installed Packages" });
             switch (selectedUpperPage)
             {
                 case 0:
@@ -30,7 +29,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
 
         private void DrawInstallPackagesPage()
         {
-            VRCPackage.VRCPackageManager.LoadDataFromFile(false);
+            VRCPackageManager.LoadDataFromFile(false);
             DrawPageTitles();
             DrawMainContent();
             DrawFooter();
@@ -43,7 +42,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
                 "If you've deleted a package and want VRCPackageManager to not try to update said package as it's not installed, click 'uninstall' here");
 
             var installedVersionsCache = SettingsManager.installedVersions.Keys.ToList();
-            foreach (var package in installedVersionsCache.Select(packageID => VRCPackage.VRCPackageManager.packages[packageID]))
+            foreach (var package in installedVersionsCache.Select(packageID => VRCPackageManager.packages[packageID]))
             {
                 DrawCenteredTitle($"{package.formattedName}: {SettingsManager.installedVersions[package.id]}");
                 GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
@@ -58,7 +57,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
 
         private void DrawPageTitles()
         {
-            selectedPage = GUILayout.Toolbar(selectedPage, VRCPackage.VRCPackageManager.GetPageTitles());
+            selectedPage = GUILayout.Toolbar(selectedPage, VRCPackageManager.GetPageTitles());
         }
 
         private void DrawMainContent()
@@ -110,14 +109,11 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
 
         private static void DrawPage(int pageID)
         {
-            var section = VRCPackage.VRCPackageManager.pages[pageID];
-            foreach (var package in section.packages)
-            {
-                DrawVRCPackage(package);
-            }
+            var section = VRCPackageManager.pages[pageID];
+            foreach (var package in section.packages) DrawVRCPackage(package);
         }
 
-        private static void DrawVRCPackage(VRCPackage.VRCPackage package)
+        private static void DrawVRCPackage(VRCPackage package)
         {
             DrawCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
@@ -132,15 +128,9 @@ namespace VRCToolkit.VRCPackageManager.Editor.Screen
             GUILayout.EndHorizontal();
             GUILayout.Space(20);
 
-            if (install)
-            {
-                VRCPackageInstallHandler.InstallVRCPackage(package.id);
-            }
+            if (install) VRCPackageInstallHandler.InstallVRCPackage(package.id);
 
-            if (openRepo)
-            {
-                Application.OpenURL(package.GetRepoURL());
-            }
+            if (openRepo) Application.OpenURL(package.GetRepoURL());
         }
     }
 }

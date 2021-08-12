@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VRCToolkit.VRCPackageManager.Editor.GitHub
+namespace VRCToolkit.VRCPackageManager
 {
     [Serializable]
     public class GitHubAPIResponse

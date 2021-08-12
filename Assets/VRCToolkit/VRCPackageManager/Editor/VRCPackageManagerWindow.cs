@@ -1,15 +1,12 @@
 using UnityEditor;
-using UnityEngine;
-using VRCToolkit.VRCPackageManager.Editor.Screen;
-using VRCToolkit.VRCPackageManager.Editor.Settings;
 
-namespace VRCToolkit.VRCPackageManager.Editor
+namespace VRCToolkit.VRCPackageManager
 {
     public class VRCPackageManagerWindow : EditorWindow
     {
         public static int selectedScreen;
 
-        private static readonly VRCPackageManagerScreen[] _screens = {new SDKScreen(), new PackageScreen()};
+        private static readonly VRCPackageManagerScreen[] _screens = { new SDKScreen(), new PackageScreen() };
 
         private void OnGUI()
         {
@@ -22,7 +19,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
                     if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK))
                     {
                         selectedScreen = 1;
-                        VRCPackage.VRCPackageManager.LoadDataFromFile(true);
+                        VRCPackageManager.LoadDataFromFile(true);
                     }
                 }
             }

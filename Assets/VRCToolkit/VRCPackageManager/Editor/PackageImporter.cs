@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 
-namespace VRCToolkit.VRCPackageManager.Editor
+namespace VRCToolkit.VRCPackageManager
 {
     public class PackageImporter
     {
-        private readonly string formattedName;
         private readonly string filePath;
+        private readonly string formattedName;
 
         public PackageImporter(string formattedName, string filePath)
         {

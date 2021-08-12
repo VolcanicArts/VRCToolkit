@@ -2,9 +2,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
-using VRCToolkit.VRCPackageManager.Editor.Settings;
 
-namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
+namespace VRCToolkit.VRCPackageManager
 {
     public static class VRCPackageManager
     {
@@ -40,12 +39,8 @@ namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
 
             packages = new Dictionary<int, VRCPackage>();
             foreach (var page in pages)
-            {
-                foreach (var package in page.packages)
-                {
-                    packages.Add(package.id, package);
-                }
-            }
+            foreach (var package in page.packages)
+                packages.Add(package.id, package);
         }
 
         public static string[] GetPageTitles()

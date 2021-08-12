@@ -2,7 +2,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace VRCToolkit.VRCPackageManager.Editor.Settings
+namespace VRCToolkit.VRCPackageManager
 {
     public static class SettingsManager
     {
@@ -14,7 +14,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
         public static bool LoadSettings(bool reload)
         {
             if (settings != null && !reload) return false;
-            
+
             installedVersions = new Dictionary<int, string>();
             if (!File.Exists(settingsFileLocation))
             {
@@ -26,12 +26,8 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
             var settingsJSON = File.ReadAllText(settingsFileLocation);
             settings = JsonUtility.FromJson<Settings>(settingsJSON);
             if (settings.installedPackages != null)
-            {
                 foreach (var packageVersion in settings.installedPackages)
-                {
                     installedVersions.Add(packageVersion.packageID, packageVersion.installedVersion);
-                }
-            }
 
             return true;
         }
@@ -42,7 +38,7 @@ namespace VRCToolkit.VRCPackageManager.Editor.Settings
             var index = 0;
             foreach (var entry in installedVersions)
             {
-                settings.installedPackages[index] = new PackageVersion {packageID = entry.Key, installedVersion = entry.Value};
+                settings.installedPackages[index] = new PackageVersion { packageID = entry.Key, installedVersion = entry.Value };
                 index++;
             }
 

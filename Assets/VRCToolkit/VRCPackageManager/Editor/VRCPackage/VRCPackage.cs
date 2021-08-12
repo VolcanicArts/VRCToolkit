@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VRCToolkit.VRCPackageManager.Editor.VRCPackage
+namespace VRCToolkit.VRCPackageManager
 {
     [Serializable]
     public class VRCPackage

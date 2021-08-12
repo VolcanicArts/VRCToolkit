@@ -1,7 +1,6 @@
 ﻿using UnityEditor;
-using VRCToolkit.VRCPackageManager.Editor.Settings;
 
-namespace VRCToolkit.VRCPackageManager.Editor
+namespace VRCToolkit.VRCPackageManager
 {
     public static class SDKInstallHandler
     {
@@ -9,7 +8,7 @@ namespace VRCToolkit.VRCPackageManager.Editor
         {
             var downloadedFilePath = new FileDownloader(name, url, $"{name}.unitypackage").ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
-            
+
             SettingsManager.settings.installedSDK = name;
             SettingsManager.SaveSettings();
             AssignEvents();

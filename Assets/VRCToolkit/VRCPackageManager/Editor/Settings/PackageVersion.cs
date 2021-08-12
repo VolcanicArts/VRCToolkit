@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace VRCToolkit.VRCPackageManager.Editor.Settings
+namespace VRCToolkit.VRCPackageManager
 {
     [Serializable]
     public class PackageVersion

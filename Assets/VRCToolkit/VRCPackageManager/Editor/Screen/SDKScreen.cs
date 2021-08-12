@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace VRCToolkit.VRCPackageManager.Editor.Screen
+namespace VRCToolkit.VRCPackageManager
 {
     public class SDKScreen : VRCPackageManagerScreen
     {
