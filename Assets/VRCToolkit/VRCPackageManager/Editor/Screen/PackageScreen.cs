@@ -29,7 +29,7 @@ namespace VRCToolkit.VRCPackageManager
 
         private void DrawInstallPackagesPage()
         {
-            VRCPackageManager.LoadDataFromFile(false);
+            PackageManager.LoadDataFromFile(false);
             DrawPageTitles();
             DrawMainContent();
             DrawFooter();
@@ -42,7 +42,7 @@ namespace VRCToolkit.VRCPackageManager
                 "If you've deleted a package and want VRCPackageManager to not try to update said package as it's not installed, click 'uninstall' here");
 
             var installedVersionsCache = SettingsManager.installedVersions.Keys.ToList();
-            foreach (var package in installedVersionsCache.Select(packageID => VRCPackageManager.packages[packageID]))
+            foreach (var package in installedVersionsCache.Select(packageID => PackageManager.packages[packageID]))
             {
                 DrawCenteredTitle($"{package.formattedName}: {SettingsManager.installedVersions[package.id]}");
                 GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);
@@ -57,7 +57,7 @@ namespace VRCToolkit.VRCPackageManager
 
         private void DrawPageTitles()
         {
-            selectedPage = GUILayout.Toolbar(selectedPage, VRCPackageManager.GetPageTitles());
+            selectedPage = GUILayout.Toolbar(selectedPage, PackageManager.GetPageTitles());
         }
 
         private void DrawMainContent()
@@ -109,11 +109,11 @@ namespace VRCToolkit.VRCPackageManager
 
         private static void DrawPage(int pageID)
         {
-            var section = VRCPackageManager.pages[pageID];
+            var section = PackageManager.pages[pageID];
             foreach (var package in section.packages) DrawVRCPackage(package);
         }
 
-        private static void DrawVRCPackage(VRCPackage package)
+        private static void DrawVRCPackage(Package package)
         {
             DrawCenteredTitle(package.formattedName);
             GUILayout.Label(package.description, EditorStyles.wordWrappedLabel);

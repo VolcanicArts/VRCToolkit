@@ -2,7 +2,7 @@ using UnityEditor;
 
 namespace VRCToolkit.VRCPackageManager
 {
-    public class VRCPackageManagerWindow : EditorWindow
+    public class PackageManagerWindow : EditorWindow
     {
         public static int selectedScreen;
 
@@ -19,7 +19,7 @@ namespace VRCToolkit.VRCPackageManager
                     if (!string.IsNullOrEmpty(SettingsManager.settings.installedSDK))
                     {
                         selectedScreen = 1;
-                        VRCPackageManager.LoadDataFromFile(true);
+                        PackageManager.LoadDataFromFile(true);
                     }
                 }
             }
@@ -32,7 +32,7 @@ namespace VRCToolkit.VRCPackageManager
         {
             SettingsManager.LoadSettings(true);
             SettingsManager.SetAttributes();
-            GetWindow<VRCPackageManagerWindow>("VRCPackageManager");
+            GetWindow<PackageManagerWindow>("VRCPackageManager");
             if (SettingsManager.settings.updateSDKOnStart)
             {
                 var installedSDK = SettingsManager.settings.installedSDK;

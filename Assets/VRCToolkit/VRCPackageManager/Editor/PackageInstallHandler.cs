@@ -8,13 +8,13 @@ namespace VRCToolkit.VRCPackageManager
 
         public static void InstallVRCPackage(int id)
         {
-            var package = VRCPackageManager.packages[id];
+            var package = PackageManager.packages[id];
             foreach (var requirementID in package.requirements) InstallVRCPackage(requirementID);
 
             InstallPackage(package);
         }
 
-        private static void InstallPackage(VRCPackage package)
+        private static void InstallPackage(Package package)
         {
             var latestVersion = GitHubUtil.GetLatestVersion(package.repoName, package.formattedName);
             if (latestVersion == null) return;

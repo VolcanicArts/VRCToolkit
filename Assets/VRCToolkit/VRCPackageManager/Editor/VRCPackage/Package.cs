@@ -3,7 +3,7 @@
 namespace VRCToolkit.VRCPackageManager
 {
     [Serializable]
-    public class VRCPackage
+    public class Package
     {
         [NonSerialized] private const string GitHubRepoBase = "https://github.com/";
 
@@ -26,7 +26,7 @@ namespace VRCToolkit.VRCPackageManager
             for (var i = 0; i < requirements.Length; i++)
             {
                 var requirementID = requirements[i];
-                requirementsStr += $"{VRCPackageManager.packages[requirementID].formattedName}";
+                requirementsStr += $"{PackageManager.packages[requirementID].formattedName}";
                 if (i + 1 != requirements.Length) requirementsStr += "/";
             }
 

@@ -53,7 +53,7 @@ namespace VRCToolkit.VRCPackageManager
 
         public static void SetAttributes()
         {
-            if (!string.IsNullOrEmpty(settings.installedSDK)) VRCPackageManagerWindow.selectedScreen = 1;
+            if (!string.IsNullOrEmpty(settings.installedSDK)) PackageManagerWindow.selectedScreen = 1;
         }
     }
 }

@@ -3,9 +3,9 @@
 namespace VRCToolkit.VRCPackageManager
 {
     [Serializable]
-    public class VRCPackagePage
+    public class PackagePage
     {
         public string title;
-        public VRCPackage[] packages;
+        public Package[] packages;
     }
 }
