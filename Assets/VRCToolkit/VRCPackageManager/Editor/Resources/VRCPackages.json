@@ -23,6 +23,14 @@
           "fileNameFormat": "{0}.{1}.unitypackage",
           "description": "A VRChat client emulator in Unity for SDK2 and SDK3",
           "requirements": []
+        },
+		{
+          "id": 9,
+          "formattedName": "PumkinsAvatarTools",
+          "repoName": "rurre/PumkinsAvatarTools",
+          "fileNameFormat": "{0}_v{1}.unitypackage",
+          "description": "An editor script that adds tools to help you setup avatars faster and easier",
+          "requirements": []
         }
       ]
     },
@@ -152,6 +160,14 @@
           "repoName": "poiyomi/PoiyomiToonShader",
           "fileNameFormat": "PoiyomiToon{1}.unitypackage",
           "description": "A feature rich toon shader for unity and VR Chat",
+          "requirements": []
+        },
+		{
+          "id": 9,
+          "formattedName": "PumkinsAvatarTools",
+          "repoName": "rurre/PumkinsAvatarTools",
+          "fileNameFormat": "{0}_v{1}.unitypackage",
+          "description": "An editor script that adds tools to help you setup avatars faster and easier",
           "requirements": []
         }
       ]
