@@ -9,7 +9,7 @@ namespace VRCToolkit.VRCPackageManager
         private const string GitHubAPIBase = "https://api.github.com/repos/";
         private const string GitHubAPILatestRelease = "/releases/latest";
 
-        public static string GetLatestVersion(string repoName, string formattedName)
+        public static LatestRelease GetLatestVersion(string repoName, string formattedName)
         {
             var url = GitHubAPIBase + repoName + GitHubAPILatestRelease;
             Logger.Log($"Requesting for latest version of {formattedName} using URL: {url}");
@@ -29,8 +29,22 @@ namespace VRCToolkit.VRCPackageManager
 
             var responseData = uwr.downloadHandler.text;
             var gitHubData = JsonUtility.FromJson<GitHubAPIResponse>(responseData);
-            Logger.Log($"Found latest version of {gitHubData.tag_name}");
-            return gitHubData.tag_name;
+
+            var downloadURL = string.Empty;
+            foreach (var asset in gitHubData.assets)
+            {
+                if (asset.name.EndsWith("unitypackage"))
+                {
+                    downloadURL = asset.browser_download_url;
+                }
+            }
+            
+            Logger.Log($"Found latest version");
+            return new LatestRelease
+            {
+                DownloadURL = downloadURL,
+                Version = gitHubData.tag_name
+            };
         }
     }
 }

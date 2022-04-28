@@ -6,7 +6,7 @@ namespace VRCToolkit.VRCPackageManager
     {
         public static void InstallSDK(string name, string url)
         {
-            var downloadedFilePath = new FileDownloader(name, url, $"{name}.unitypackage").ExecuteDownload();
+            var downloadedFilePath = new FileDownloader(name, url).ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
 
             SettingsManager.settings.installedSDK = name;

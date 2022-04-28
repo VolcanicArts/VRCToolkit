@@ -10,7 +10,6 @@ namespace VRCToolkit.VRCPackageManager
         public int id;
         public string formattedName;
         public string repoName;
-        public string fileNameFormat;
         public string description;
         public int[] requirements;
 

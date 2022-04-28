@@ -21,7 +21,7 @@ namespace VRCToolkit.VRCPackageManager
             try
             {
                 var installedVersion = SettingsManager.installedVersions[package.id];
-                if (installedVersion.Equals(latestVersion))
+                if (installedVersion.Equals(latestVersion.Version))
                 {
                     Logger.Log($"Latest version of {package.formattedName} is already installed!");
                     return;
@@ -31,15 +31,13 @@ namespace VRCToolkit.VRCPackageManager
             {
             }
 
-            var latestReleaseFileName = string.Format(package.fileNameFormat, package.formattedName, latestVersion);
-            var latestReleaseURL = package.GetRepoURL() + GitHubRepoLatestDownload + latestReleaseFileName;
-            var downloadedFilePath = new FileDownloader(package.formattedName, latestReleaseURL, latestReleaseFileName).ExecuteDownload();
+            var downloadedFilePath = new FileDownloader(package.formattedName, latestVersion.DownloadURL).ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;
 
             if (SettingsManager.installedVersions.TryGetValue(package.id, out _))
-                SettingsManager.installedVersions[package.id] = latestVersion;
+                SettingsManager.installedVersions[package.id] = latestVersion.Version;
             else
-                SettingsManager.installedVersions.Add(package.id, latestVersion);
+                SettingsManager.installedVersions.Add(package.id, latestVersion.Version);
 
             SettingsManager.SaveSettings();
             new PackageImporter(package.formattedName, downloadedFilePath).ExecuteImport();

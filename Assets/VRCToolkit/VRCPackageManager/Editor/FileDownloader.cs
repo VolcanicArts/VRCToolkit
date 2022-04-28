@@ -10,10 +10,10 @@ namespace VRCToolkit.VRCPackageManager
         private readonly string formattedName;
         private readonly UnityWebRequest uwr;
 
-        public FileDownloader(string formattedName, string url, string fileName)
+        public FileDownloader(string formattedName, string url)
         {
             this.formattedName = formattedName;
-            filePath = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Downloads/{fileName}";
+            filePath = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Downloads/{formattedName}TEMP.unitypackage";
             uwr = new UnityWebRequest(url) { downloadHandler = new DownloadHandlerFile(filePath) };
         }
 

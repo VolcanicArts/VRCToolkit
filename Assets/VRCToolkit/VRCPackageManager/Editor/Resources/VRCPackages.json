@@ -7,7 +7,6 @@
           "id": 6,
           "formattedName": "VRCPackageManager",
           "repoName": "VolcanicArts/VRCToolkit",
-          "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
           "description": "A collection of commonly used tools and prefabs, as well as the official VRC SDKs",
           "requirements": []
         }
@@ -20,7 +19,6 @@
           "id": 1,
           "formattedName": "CyanEmu",
           "repoName": "CyanLaser/CyanEmu",
-          "fileNameFormat": "{0}.{1}.unitypackage",
           "description": "A VRChat client emulator in Unity for SDK2 and SDK3",
           "requirements": []
         },
@@ -28,7 +26,6 @@
           "id": 9,
           "formattedName": "PumkinsAvatarTools",
           "repoName": "rurre/PumkinsAvatarTools",
-          "fileNameFormat": "{0}_v{1}.unitypackage",
           "description": "An editor script that adds tools to help you setup avatars faster and easier",
           "requirements": []
         }
@@ -41,7 +38,6 @@
           "id": 3,
           "formattedName": "VRCPlayersOnlyMirrorSDK2",
           "repoName": "acertainbluecat/VRCPlayersOnlyMirror",
-          "fileNameFormat": "{0}_{1}.unitypackage",
           "description": "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background",
           "requirements": []
         }
@@ -56,7 +52,6 @@
           "id": 6,
           "formattedName": "VRCPackageManager",
           "repoName": "VolcanicArts/VRCToolkit",
-          "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
           "description": "A collection of commonly used tools and prefabs, as well as the official VRC SDKs",
           "requirements": []
         },
@@ -64,7 +59,6 @@
           "id": 7,
           "formattedName": "UdonBehaviours",
           "repoName": "VolcanicArts/VRCToolkit",
-          "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
           "description": "A collection of easy to use scripts that can be modified and used to quickly setup objects in a world before branching out into more complicated behaviours",
           "requirements": [0]
         }
@@ -77,7 +71,6 @@
           "id": 0,
           "formattedName": "UdonSharp",
           "repoName": "MerlinVR/UdonSharp",
-          "fileNameFormat": "{0}_{1}.unitypackage",
           "description": "UdonSharp is a compiler that compiles C# to Udon assembly",
           "requirements": []
         },
@@ -85,7 +78,6 @@
           "id": 1,
           "formattedName": "CyanEmu",
           "repoName": "CyanLaser/CyanEmu",
-          "fileNameFormat": "{0}.{1}.unitypackage",
           "description": "A VRChat client emulator in Unity for SDK2 and SDK3",
           "requirements": []
         },
@@ -93,7 +85,6 @@
           "id": 2,
           "formattedName": "VRWorldToolkit",
           "repoName": "oneVR/VRWorldToolkit",
-          "fileNameFormat": "{0}{1}.unitypackage",
           "description": "VRWorld Toolkit is a Unity Editor extension made to make VRChat world creation more accessible and lower the entry-level to make a good performing world",
           "requirements": []
         },
@@ -101,7 +92,6 @@
           "id": 8,
           "formattedName": "PoiyomiToonShader",
           "repoName": "poiyomi/PoiyomiToonShader",
-          "fileNameFormat": "PoiyomiToon{1}.unitypackage",
           "description": "A feature rich toon shader for unity and VR Chat",
           "requirements": []
         }
@@ -114,7 +104,6 @@
           "id": 3,
           "formattedName": "VRCPlayersOnlyMirrorSDK3",
           "repoName": "acertainbluecat/VRCPlayersOnlyMirror",
-          "fileNameFormat": "{0}_{1}.unitypackage",
           "description": "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background",
           "requirements": []
         },
@@ -122,7 +111,6 @@
           "id": 4,
           "formattedName": "USharpVideo",
           "repoName": "MerlinVR/USharpVideo",
-          "fileNameFormat": "{0}_{1}.unitypackage",
           "description": "A basic video player made for VRChat using Udon and UdonSharp",
           "requirements": [0]
         },
@@ -130,7 +118,6 @@
           "id": 5,
           "formattedName": "AudioLink",
           "repoName": "llealloo/vrc-udon-audio-link",
-          "fileNameFormat": "{0}_v{1}.unitypackage",
           "description": "AudioLink is a system that analyzes and processes in-world audio into many different highly reactive data streams and exposes the data to VRChat Udon, world shaders, and avatar shaders",
           "requirements": [0]
         }
@@ -145,7 +132,6 @@
           "id": 6,
           "formattedName": "VRCPackageManager",
           "repoName": "VolcanicArts/VRCToolkit",
-          "fileNameFormat": "VRCToolkit_{1}-{0}.unitypackage",
           "description": "A collection of commonly used tools and prefabs, as well as the official VRC SDKs",
           "requirements": []
         }
@@ -158,7 +144,6 @@
           "id": 8,
           "formattedName": "PoiyomiToonShader",
           "repoName": "poiyomi/PoiyomiToonShader",
-          "fileNameFormat": "PoiyomiToon{1}.unitypackage",
           "description": "A feature rich toon shader for unity and VR Chat",
           "requirements": []
         },
@@ -166,7 +151,6 @@
           "id": 9,
           "formattedName": "PumkinsAvatarTools",
           "repoName": "rurre/PumkinsAvatarTools",
-          "fileNameFormat": "{0}_v{1}.unitypackage",
           "description": "An editor script that adds tools to help you setup avatars faster and easier",
           "requirements": []
         }

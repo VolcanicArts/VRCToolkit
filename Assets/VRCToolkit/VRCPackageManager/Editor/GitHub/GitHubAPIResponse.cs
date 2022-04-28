@@ -6,5 +6,6 @@ namespace VRCToolkit.VRCPackageManager
     public class GitHubAPIResponse
     {
         public string tag_name;
+        public AssetResponse[] assets;
     }
 }
