@@ -38,7 +38,7 @@ namespace VRCToolkit.VRCPackageManager
                     downloadURL = asset.browser_download_url;
                 }
             }
-            
+
             Logger.Log($"Found latest version");
             return new LatestRelease
             {

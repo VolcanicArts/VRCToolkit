@@ -54,6 +54,7 @@ namespace VRCToolkit.VRCPackageManager
                     SettingsManager.installedVersions.Remove(package.id);
                     SettingsManager.SaveSettings();
                 }
+
                 GUILayout.Space(10);
             }
         }

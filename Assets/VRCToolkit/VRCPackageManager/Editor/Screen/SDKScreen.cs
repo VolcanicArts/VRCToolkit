@@ -12,7 +12,7 @@ namespace VRCToolkit.VRCPackageManager
             DrawCenteredTitle("Choose an SDK");
             DrawCenteredText("This will install the latest version of the SDK, and store the SDK type");
             DrawCenteredText("If you have an SDK installed, please choose the SDK you're using");
-            
+
             GUILayout.Space(10);
             DrawSDK(nameof(SDKURLs.SDK3World), SDKURLs.SDK3World);
             DrawSDK(nameof(SDKURLs.SDK3Avatar), SDKURLs.SDK3Avatar);

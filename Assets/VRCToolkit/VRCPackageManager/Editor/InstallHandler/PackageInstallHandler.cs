@@ -27,9 +27,7 @@ namespace VRCToolkit.VRCPackageManager
                     return;
                 }
             }
-            catch (KeyNotFoundException)
-            {
-            }
+            catch (KeyNotFoundException) { }
 
             var downloadedFilePath = new FileDownloader(package.formattedName, latestVersion.DownloadURL).ExecuteDownload();
             if (string.IsNullOrEmpty(downloadedFilePath)) return;

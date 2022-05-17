@@ -28,7 +28,7 @@ namespace VRCToolkit.VRCPackageManager
                 alignment = TextAnchor.MiddleCenter,
                 wordWrap = true,
                 fontStyle = FontStyle.Normal,
-                normal = new GUIStyleState {textColor = Color.white}
+                normal = new GUIStyleState { textColor = Color.white }
             });
             GUILayout.Space(10);
             GUILayout.EndHorizontal();
@@ -43,7 +43,7 @@ namespace VRCToolkit.VRCPackageManager
                 alignment = TextAnchor.MiddleCenter,
                 wordWrap = true,
                 fontStyle = FontStyle.Bold,
-                normal = new GUIStyleState {textColor = Color.white}
+                normal = new GUIStyleState { textColor = Color.white }
             });
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
