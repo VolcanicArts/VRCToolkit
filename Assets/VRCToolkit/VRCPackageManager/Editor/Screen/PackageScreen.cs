@@ -131,10 +131,10 @@ namespace VRCToolkit.VRCPackageManager
             if (!string.IsNullOrEmpty(requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package will also install {requirements}"));
 
             GUILayout.BeginHorizontal();
-            GUILayout.Space(100);
+            GUILayout.FlexibleSpace();
             var install = GUILayout.Button("Install Package", EditorStyles.miniButton);
             var openRepo = GUILayout.Button("Open Repository", EditorStyles.miniButton);
-            GUILayout.Space(100);
+            GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
             GUILayout.Space(20);
 
