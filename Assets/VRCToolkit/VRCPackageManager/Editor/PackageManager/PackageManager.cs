@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,11 +11,12 @@ namespace VRCToolkit.VRCPackageManager
         public static PackagePage[] pages;
         public static Dictionary<int, Package> packages;
 
+        private static string PackageDataLocation => $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
+
         public static void LoadDataFromFile(bool reload)
         {
-            if (pages != null && !reload) return;
-            var packageDataLocation = $"{Application.dataPath}/VRCToolkit/VRCPackageManager/Editor/Resources/VRCPackages.json";
-            var packageDataJson = File.ReadAllText(packageDataLocation);
+            if (!reload) return;
+            var packageDataJson = File.ReadAllText(PackageDataLocation);
             var packageData = JsonUtility.FromJson<PackageData>(packageDataJson);
 
             SettingsManager.LoadSettings(false);
@@ -28,12 +30,6 @@ namespace VRCToolkit.VRCPackageManager
                     break;
             }
 
-            if (pages == null)
-            {
-                Debug.Log("No valid SDK found");
-                return;
-            }
-
             packages = new Dictionary<int, Package>();
             foreach (var page in pages)
             foreach (var package in page.packages)
@@ -42,10 +38,7 @@ namespace VRCToolkit.VRCPackageManager
 
         public static string[] GetPageTitles()
         {
-            if (pages == null) return new string[0];
-            var pageTitles = new List<string>();
-            pageTitles.AddRange(pages.Select(page => page.title));
-            return pageTitles.ToArray();
+            return pages == null ? Array.Empty<string>() : pages.Select(page => page.title).ToArray();
         }
     }
 }
