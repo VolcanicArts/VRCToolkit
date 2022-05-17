@@ -1,35 +1,20 @@
 ﻿using System;
+using System.Linq;
 
 namespace VRCToolkit.VRCPackageManager
 {
     [Serializable]
     public class Package
     {
-        [NonSerialized] private const string GitHubRepoBase = "https://github.com/";
+        public string RepoURL => $"https://github.com/{repoName}";
+
+        public string Requirements => requirements
+            .Aggregate("", (current, requirementID) => current + $"{PackageManager.packages[requirementID].formattedName}").TrimEnd('/');
 
         public int id;
         public string formattedName;
         public string repoName;
         public string description;
         public int[] requirements;
-
-        public string GetRepoURL()
-        {
-            return GitHubRepoBase + repoName;
-        }
-
-        public string GetRequirements()
-        {
-            var requirementsStr = "";
-
-            for (var i = 0; i < requirements.Length; i++)
-            {
-                var requirementID = requirements[i];
-                requirementsStr += $"{PackageManager.packages[requirementID].formattedName}";
-                if (i + 1 != requirements.Length) requirementsStr += "/";
-            }
-
-            return requirementsStr;
-        }
     }
 }

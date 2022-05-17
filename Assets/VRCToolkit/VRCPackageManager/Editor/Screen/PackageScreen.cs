@@ -120,7 +120,7 @@ namespace VRCToolkit.VRCPackageManager
         {
             DrawCenteredTitle(package.formattedName);
             DrawCenteredText(package.description);
-            var requirements = package.GetRequirements();
+            var requirements = package.Requirements;
             if (!string.IsNullOrEmpty(requirements)) EditorGUILayout.HelpBox(new GUIContent($"This package will also install {requirements}"));
 
             GUILayout.BeginHorizontal();
@@ -133,7 +133,7 @@ namespace VRCToolkit.VRCPackageManager
 
             if (install) VRCPackageInstallHandler.InstallVRCPackage(package.id);
 
-            if (openRepo) Application.OpenURL(package.GetRepoURL());
+            if (openRepo) Application.OpenURL(package.RepoURL);
         }
     }
 }
