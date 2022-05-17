@@ -1,49 +1,4 @@
 ﻿{
-  "SDK2": [
-    {
-      "title": "VRCToolkit",
-      "packages": [
-        {
-          "id": 6,
-          "formattedName": "VRCPackageManager",
-          "repoName": "VolcanicArts/VRCToolkit",
-          "description": "A collection of commonly used tools and prefabs, as well as the official VRC SDKs",
-          "requirements": []
-        }
-      ]
-    },
-    {
-      "title": "Tools",
-      "packages": [
-        {
-          "id": 1,
-          "formattedName": "CyanEmu",
-          "repoName": "CyanLaser/CyanEmu",
-          "description": "A VRChat client emulator in Unity for SDK2 and SDK3",
-          "requirements": []
-        },
-		{
-          "id": 9,
-          "formattedName": "PumkinsAvatarTools",
-          "repoName": "rurre/PumkinsAvatarTools",
-          "description": "An editor script that adds tools to help you setup avatars faster and easier",
-          "requirements": []
-        }
-      ]
-    },
-    {
-      "title": "Prefabs",
-      "packages": [
-        {
-          "id": 3,
-          "formattedName": "VRCPlayersOnlyMirrorSDK2",
-          "repoName": "acertainbluecat/VRCPlayersOnlyMirror",
-          "description": "VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background",
-          "requirements": []
-        }
-      ]
-    }
-  ],
   "SDK3World": [
     {
       "title": "VRCToolkit",
