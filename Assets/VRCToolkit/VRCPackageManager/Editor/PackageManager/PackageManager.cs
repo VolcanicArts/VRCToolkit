@@ -20,9 +20,6 @@ namespace VRCToolkit.VRCPackageManager
             SettingsManager.LoadSettings(false);
             switch (SettingsManager.settings.installedSDK)
             {
-                case "SDK2":
-                    pages = packageData.SDK2;
-                    break;
                 case "SDK3World":
                     pages = packageData.SDK3World;
                     break;
