@@ -86,7 +86,6 @@ namespace VRCToolkit.VRCPackageManager
             var updatePackages = DrawCenteredButton("Update all installed packages");
             DrawCenteredTitle("Data Management");
             var clearDownloadCache = DrawCenteredButton("Clear download cache");
-            var chooseNewSDK = DrawCenteredButton("Choose different SDK");
             GUILayout.Space(10);
 
             if (updateSDKOnStart != SettingsManager.settings.updateSDKOnStart)
@@ -109,12 +108,6 @@ namespace VRCToolkit.VRCPackageManager
             }
 
             if (clearDownloadCache) AssetDatabase.DeleteAsset("Assets/VRCToolkit/VRCPackageManager/Downloads");
-            if (chooseNewSDK)
-            {
-                SettingsManager.GenerateDefaultSettings();
-                SettingsManager.SaveSettings();
-                SettingsManager.SetAttributes();
-            }
         }
 
         private static void DrawPage(int pageID)
