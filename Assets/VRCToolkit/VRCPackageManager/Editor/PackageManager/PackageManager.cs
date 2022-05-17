@@ -15,7 +15,7 @@ namespace VRCToolkit.VRCPackageManager
 
         public static void LoadDataFromFile(bool reload)
         {
-            if (!reload) return;
+            if (pages != null && !reload) return;
             var packageDataJson = File.ReadAllText(PackageDataLocation);
             var packageData = JsonUtility.FromJson<PackageData>(packageDataJson);
 
